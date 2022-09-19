@@ -1,0 +1,5 @@
+export default {
+  GASOLINA: 'GASOLINA',
+  DIESEL: 'DIESEL',
+  ELECTRICO: 'ELECTRICO',
+}
