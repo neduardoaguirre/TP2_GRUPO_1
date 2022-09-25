@@ -5,3 +5,5 @@ class Respuesta {
     this.texto = texto
   }
 }
+
+module.exports = Respuesta

@@ -5,15 +5,17 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/test.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chai": "^4.3.6",
     "express": "^4.18.1",
-    "mocha": "^10.0.0",
     "mongoose": "^6.6.1",
     "nodemon": "^2.0.19"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0"
   }
 }
