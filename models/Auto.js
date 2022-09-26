@@ -1,13 +1,25 @@
 
 class Auto{
   constructor(precio,marca,modelo,anio,color,img,cantPuertas, tipoCombustible){
-    this.precio = precio
+    this.setPrecio(precio)
     this.marca = marca
     this.modelo = modelo
     this.anio = anio
     this.color = color
     this.img = img
-    this.cantPuertas = cantPuertas
+    this.setCantPuertas(cantPuertas)
     this.tipoCombustible = tipoCombustible
   }
+
+  setPrecio(precio) {
+    if(precio === null || precio === undefined) throw new Error
+    this.precio = precio
+  }
+
+  setCantPuertas(cantPuertas) {
+    if(cantPuertas > 5) throw new Error
+    this.cantPuertas = cantPuertas
+  }
 }
+
+module.exports = Auto
