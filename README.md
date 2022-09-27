@@ -27,6 +27,9 @@ Test's disponibles:
 Ejemplo:
 > npm run test-auto
 
+Correr todos los tests disponibles:
+- npm run test
+
 # Trabajo Integrador TP2 - Grupo 1
 
 ## Objetivo
