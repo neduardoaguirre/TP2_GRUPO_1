@@ -22,6 +22,7 @@ Test's disponibles:
 - test-auto
 - test-cliente
 - test-direccion
+- test-respuesta
 
 Ejemplo:
 > npm run test-auto
