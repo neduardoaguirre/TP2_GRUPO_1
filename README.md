@@ -21,7 +21,9 @@ Test's disponibles:
 - test-admin
 - test-auto
 - test-cliente
+- test-comentario
 - test-direccion
+- test-publicacion
 - test-respuesta
 
 Ejemplo:
