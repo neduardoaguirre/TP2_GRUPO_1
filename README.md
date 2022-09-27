@@ -1,3 +1,29 @@
+# Requisitos
+
+### 1) Instalar:
+- NodeJS: v16+
+- NPM: v8+
+
+### 2) Instalar dependencias:
+
+> npm i
+
+### 3) Ejecutar proyecto:
+
+> npm run start
+
+### 4) Ejecutar test's cases:
+
+> npm run _nombre_del_test_
+
+Test's disponibles:
+
+- test-admin
+- test-auto
+
+Ejemplo:
+> npm run test-auto
+
 # Trabajo Integrador TP2 - Grupo 1
 
 ## Objetivo
@@ -6,8 +32,8 @@
 
 ## Entidades
 
-### 
-- Auto 
+###
+- Auto
 - Cliente
 - Admin
 - Comentario
@@ -48,7 +74,7 @@
 **Comentario**
 ```
 - fecha
-- texto 
+- texto
 - respuesta
 ```
 
@@ -72,6 +98,6 @@
 
 **Respuesta**
 ```
-- fecha 
+- fecha
 - texto
 ```
