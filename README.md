@@ -20,6 +20,7 @@ Test's disponibles:
 
 - test-admin
 - test-auto
+- test-cliente
 
 Ejemplo:
 > npm run test-auto
