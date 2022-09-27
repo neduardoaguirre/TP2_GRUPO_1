@@ -9,7 +9,8 @@
     "test-auto": "mocha ./test/auto.test.js",
     "test-cliente": "mocha ./test/cliente.test.js",
     "test-direccion": "mocha ./test/direccion.test.js",
-    "test-respuesta": "mocha ./test/respuesta.test.js"
+    "test-respuesta": "mocha ./test/respuesta.test.js",
+    "test-comentario": "mocha ./test/comentario.test.js"
   },
   "author": "",
   "license": "ISC",
