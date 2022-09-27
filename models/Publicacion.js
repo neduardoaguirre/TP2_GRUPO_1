@@ -7,3 +7,5 @@ class Publicacion{
     this.comentarios = comentarios
   }
 }
+
+module.exports=Publicacion
