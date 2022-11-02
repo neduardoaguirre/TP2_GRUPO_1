@@ -1,4 +1,5 @@
 const express = require('express');
+// const cors = require('cors');
 
 class Server {
   constructor() {
@@ -9,6 +10,12 @@ class Server {
     this.app.listen(this.port, () => {
       console.log(`Server listening on ${this.port}`);
     });
+  }
+  json() {
+    this.app.use(express.json({ extended: true }));
+  }
+  cors() {
+    this.app.use(cors());
   }
 }
 
