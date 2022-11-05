@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const usersController = require('../controllers/usersController');
+const clienteController = require('../controllers/clienteController');
 const { check } = require('express-validator');
 
 router.post(
@@ -18,7 +18,7 @@ router.post(
       .isLength({ max: 12 })
       .matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,12}$/)
   ],
-  usersController.newCliente
+  clienteController.newCliente
 );
 
 module.exports = router;

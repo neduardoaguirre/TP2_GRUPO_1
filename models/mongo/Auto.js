@@ -1,6 +1,11 @@
 const { Schema, model } = require('mongoose');
 
 const AutoSchema = new Schema({
+  licensePlate: {
+    type: String,
+    required: [true, 'License plate is required'],
+    trim: true
+  },
   brand: {
     type: String,
     required: [true, 'Brand is required'],
@@ -28,7 +33,6 @@ const AutoSchema = new Schema({
   },
   image: {
     type: String,
-    required: [true, 'Image is required'],
     trim: true
   },
   color: {
