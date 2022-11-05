@@ -28,12 +28,10 @@ const ClienteSchema = new Schema({
     trim: true
   },
   historyOfSearch: {
-    type: Array,
-    required: [true, 'History of search is required']
+    type: Array
   },
   favorites: {
-    type: Array,
-    required: [true, 'Favorites is required']
+    type: Array
   },
   downPaymentCars: {
     type: Array

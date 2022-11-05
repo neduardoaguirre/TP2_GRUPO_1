@@ -6,6 +6,7 @@ server.connectDB();
 server.cors();
 server.json();
 
-server.app.use('/api/admins', require('./routes/admins'));
+server.app.use('/api/new_admin', require('./routes/admins'));
+server.app.use('/api/new_client', require('./routes/clientes'));
 
 server.listen();
