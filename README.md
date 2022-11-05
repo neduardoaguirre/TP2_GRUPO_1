@@ -1,6 +1,7 @@
 # Requisitos
 
 ### 1) Instalar:
+
 - NodeJS: v16+
 - NPM: v8+
 
@@ -22,14 +23,15 @@ Test's disponibles:
 - test-auto
 - test-cliente
 - test-comentario
-- test-direccion
 - test-publicacion
 - test-respuesta
 
 Ejemplo:
+
 > npm run test-auto
 
 Correr todos los tests disponibles:
+
 - npm run test
 
 # Trabajo Integrador TP2 - Grupo 1
@@ -41,15 +43,16 @@ Correr todos los tests disponibles:
 ## Entidades
 
 ###
+
 - Auto
 - Cliente
 - Admin
 - Comentario
-- Direccion
 - Publicacion
 - Respuesta
 
 **Auto**
+
 ```
 - precio
 - marca
@@ -62,6 +65,7 @@ Correr todos los tests disponibles:
 ```
 
 **Cliente**
+
 ```
 - mail
 - pass
@@ -74,29 +78,22 @@ Correr todos los tests disponibles:
 ```
 
 **Admin**
+
 ```
 - mail
 - password
 ```
 
 **Comentario**
+
 ```
 - fecha
 - texto
 - respuesta
 ```
 
-**Direccion**
-```
-- altura
-- calle
-- numDepto
-- provincia
-- localidad
-- zipCode
-```
-
 **Publicacion**
+
 ```
 - auto
 - fecha
@@ -105,6 +102,7 @@ Correr todos los tests disponibles:
 ```
 
 **Respuesta**
+
 ```
 - fecha
 - texto
