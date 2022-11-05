@@ -3,18 +3,17 @@ const { Schema, model } = require('mongoose');
 const PublicacionSchema = new Schema({
   car: {
     type: Schema.Types.ObjectId,
-    ref: 'Car',
+    ref: 'Auto',
     required: [true, 'Car is required']
   },
   date: {
     type: Date,
     required: [true, 'Date is required'],
-    trim: true
+    trim: true,
+    default: Date.now()
   },
   comments: {
-    type: Schema.Types.ObjectId,
-    ref: 'Comentario',
-    required: [true, 'Comments are required']
+    type: Array
   },
   payed: {
     type: Boolean,
