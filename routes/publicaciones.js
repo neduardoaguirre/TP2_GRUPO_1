@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const clienteController = require('../controllers/publicacionController');
+const publicacionController = require('../controllers/publicacionController');
 const { check } = require('express-validator');
 
 router.post(
@@ -11,5 +12,7 @@ router.post(
   ],
   clienteController.newPublicacion
 );
+
+router.put('/:id', [check('text', 'The text field is required').not().isEmpty()], publicacionController.addComentario);
 
 module.exports = router;
