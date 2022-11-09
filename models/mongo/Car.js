@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const AutoSchema = new Schema({
+const CarSchema = new Schema({
   licensePlate: {
     type: String,
     required: [true, 'License plate is required'],
@@ -40,14 +40,14 @@ const AutoSchema = new Schema({
     required: [true, 'Color is required'],
     trim: true
   },
-  doorAmount: {
+  doors: {
     type: Number,
-    required: [true, 'Door amount is required'],
+    required: [true, 'Doors is required'],
     trim: true
   },
-  fuelType: {
+  fuel: {
     type: String,
-    required: [true, 'Fuel type is required'],
+    required: [true, 'Fuel is required'],
     trim: true
   },
   milage: {
@@ -57,4 +57,4 @@ const AutoSchema = new Schema({
   }
 });
 
-module.exports = model('Auto', AutoSchema);
+module.exports = model('Car', CarSchema);

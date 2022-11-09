@@ -1,9 +1,9 @@
-const Cliente = require('../models/mongo/Cliente');
+const Client = require('../models/mongo/Client');
 const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
-exports.newCliente = async (req, res) => {
+exports.newClient = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
@@ -11,20 +11,20 @@ exports.newCliente = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    let cliente = await Cliente.findOne({ email });
+    let client = await Client.findOne({ email });
 
-    if (cliente) {
+    if (client) {
       return res.status(400).json({ msg: 'A client already exist with this email address' });
     }
 
-    cliente = new Cliente(req.body);
+    client = new Client(req.body);
     const salt = await bcryptjs.genSalt(10);
-    cliente.password = await bcryptjs.hash(password, salt);
-    await cliente.save();
+    client.password = await bcryptjs.hash(password, salt);
+    await client.save();
 
     const payload = {
       cliente: {
-        id: cliente.id
+        id: client.id
       }
     };
 

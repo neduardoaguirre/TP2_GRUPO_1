@@ -1,9 +1,10 @@
-const Publicacion = require('../models/mongo/Publicacion');
-const Auto = require('../models/mongo/Auto');
+const Advertisement = require('../models/mongo/Advertisement');
+const Car = require('../models/mongo/Car');
+const Comment = require('../models/mongo/Comment');
 const { validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
 
-exports.newPublicacion = async (req, res) => {
+exports.newAdvertisement = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
@@ -11,46 +12,45 @@ exports.newPublicacion = async (req, res) => {
   const { car } = req.body;
 
   try {
-    let auto = await Auto.find({ _id: car });
-    if (!auto) {
+    let carExist = await Car.find({ _id: car });
+    if (!carExist) {
       return res.status(400).json({ msg: 'The car does not exist' });
     }
-    let publicacion = await Publicacion.findOne({ where: car === auto._id });
-    if (publicacion) {
+    let advertisement = await Advertisement.findOne({ where: car === carExist._id });
+    if (advertisement) {
       return res.status(400).json({ msg: 'A advertisement already exist with this car' });
     }
-    publicacion = new Publicacion(req.body);
-    await publicacion.save();
-    res.json({ msg: 'Advertisement created successfuly', advertisement: publicacion });
+    advertisement = new Advertisement(req.body);
+    await advertisement.save();
+    res.json({ msg: 'Advertisement created successfuly', advertisement: advertisement });
   } catch (error) {
     console.log(error);
     res.status(400).send('Sorry, something went wrong');
   }
 };
 
-exports.addComentario = async (req, res) => {
+exports.addComment = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
   }
-  const { text } = req.body;
   const { id } = req.params;
 
-  const comentario = { date: Date.now(), text, id: uuidv4() };
-
   try {
-    let publicacion = await Publicacion.find({ _id: id });
-    if (!publicacion) {
+    let advertisement = await Advertisement.find({ _id: id });
+    if (!advertisement) {
       return res.status(400).json({ msg: 'The advertisement does not exist' });
     }
 
-    publicacion = await Publicacion.findByIdAndUpdate(
+    const comment = new Comment(req.body);
+
+    advertisement = await Advertisement.findByIdAndUpdate(
       { _id: id },
       {
-        $push: { comments: comentario }
+        $push: { comments: comment }
       }
     );
-    res.json({ msg: 'Comment created' });
+    res.json({ msg: 'Comment created', comment: comment });
   } catch (error) {
     console.log(error);
     res.status(400).send('Sorry, something went wrong');

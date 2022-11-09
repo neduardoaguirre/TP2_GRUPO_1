@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const PublicacionSchema = new Schema({
+const AdvertisementSchema = new Schema({
   car: {
     type: Schema.Types.ObjectId,
     ref: 'Auto',
@@ -22,4 +22,4 @@ const PublicacionSchema = new Schema({
   }
 });
 
-module.exports = model('Publicacion', PublicacionSchema);
+module.exports = model('Advertisement', AdvertisementSchema);
