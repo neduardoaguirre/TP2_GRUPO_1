@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const clientController = require('../controllers/clientController');
+const { getClient, getAllClients, newClient, deleteClient } = require('../controllers/clientController');
 const { check } = require('express-validator');
+
+router.get('/:id', getClient);
+
+router.get('/', getAllClients);
 
 router.post(
   '/',
@@ -18,7 +22,9 @@ router.post(
       .isLength({ max: 12 })
       .matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,12}$/)
   ],
-  clientController.newClient
+  newClient
 );
+
+router.delete('/:id', deleteClient)
 
 module.exports = router;
