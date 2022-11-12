@@ -72,16 +72,28 @@ const newClient = async (req, res) => {
   }
 };
 
+const updateClient = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ msg: errors.array() });
+  }
+
+  try {
+    await Client.findByIdAndUpdate({ _id: req.params.id}, { $set: req.body }, { new: true });
+    res.status(200).json("Client has been updated");
+  } catch (error) {
+    res.status(404).json(error).send("There is no client with this id");
+  }
+};
+
 const deleteClient = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
   }
 
-  //const { id } = req.params.id;
-
   try {
-    await Client.findByIdAndRemove(req.params._id);
+    await Client.findByIdAndRemove({ _id: req.params.id });
     res.status(200).json("Client has been deleted");
   } catch (error) {
     res.status(404).json(error).send("There is no client with this id");
@@ -92,5 +104,6 @@ module.exports = {
   getClient,
   getAllClients,
   newClient,
+  updateClient,
   deleteClient
 };

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getClient, getAllClients, newClient, deleteClient } = require('../controllers/clientController');
+const { getClient, getAllClients, newClient, updateClient, deleteClient } = require('../controllers/clientController');
 const { check } = require('express-validator');
 
 router.get('/:id', getClient);
@@ -24,6 +24,8 @@ router.post(
   ],
   newClient
 );
+
+router.put('/:id', updateClient)
 
 router.delete('/:id', deleteClient)
 
