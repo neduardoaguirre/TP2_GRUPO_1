@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { getCars, newCar } = require("../controllers/carController");
+const { getCar, getCars, newCar } = require("../controllers/carController");
 const { check } = require("express-validator");
+
+router.get("/:id", getCar);
 
 router.get("/", getCars);
 
