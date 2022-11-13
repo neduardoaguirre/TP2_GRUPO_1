@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const {
+  deleteCar,
   getCar,
   getCars,
   newCar,
   updateCar,
 } = require("../controllers/carController");
 const { check } = require("express-validator");
+
+router.delete("/:id", deleteCar);
 
 router.get("/:id", getCar);
 

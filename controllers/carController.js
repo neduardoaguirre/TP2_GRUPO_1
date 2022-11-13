@@ -3,6 +3,28 @@ const { validationResult } = require("express-validator");
 const { isValidObjectId } = require("mongoose");
 
 /**
+ * Delete car by id
+ */
+ const deleteCar = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (isValidObjectId(id)) {
+      const car = await Car.findByIdAndDelete({ _id: id });
+      if (car) {
+        res.status(200).send("Car deleted successfully");
+      } else {
+        res.status(400).send("Invalid car id");
+      }
+    } else {
+      res.status(400).send("Invalid car id");
+    }
+  } catch (error) {
+    res.status(400).json(error).send("Sorry, something went wrong");
+  }
+};
+
+/**
  * Get car by id
  */
 const getCar = async (req, res) => {
@@ -52,7 +74,7 @@ const newCar = async (req, res) => {
     }
     car = new Car(req.body);
     await car.save();
-    res.json({ msg: "Car created successfuly", car: car });
+    res.json({ msg: "Car created successfully", car: car });
   } catch (error) {
     res.status(400).json(error).send("Sorry, something went wrong");
   }
@@ -92,6 +114,7 @@ const updateCar = async (req, res) => {
 };
 
 module.exports = {
+  deleteCar,
   getCar,
   getCars,
   newCar,
