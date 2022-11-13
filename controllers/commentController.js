@@ -4,6 +4,41 @@ const { isValidObjectId } = require("mongoose");
 const Advertisement = require("../models/mongo/Advertisement");
 
 /**
+ * Delete comment by id
+ */
+const deleteComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (isValidObjectId(id)) {
+      const comment = await Comment.findByIdAndDelete({ _id: id });
+
+      if (comment) {
+        const advertisement = await Advertisement.findById({
+          _id: comment.advertisementId,
+        });
+
+        const commentsUpdated = advertisement.comments.filter(
+          (c) => c._id.toString() !== comment.id
+        );
+
+        await advertisement.updateOne({
+          comments: commentsUpdated,
+        });
+
+        res.status(200).send("Comment deleted successfully");
+      } else {
+        res.status(400).send("Invalid comment id");
+      }
+    } else {
+      res.status(400).send("Invalid comment id");
+    }
+  } catch (error) {
+    res.status(400).json(error).send("Sorry, something went wrong");
+  }
+};
+
+/**
  * Get all comments from advertisement
  */
 const getComments = async (req, res) => {
@@ -132,6 +167,7 @@ const newComment = async (req, res) => {
 };
 
 module.exports = {
+  deleteComment,
   getComments,
   newAnswer,
   newComment,

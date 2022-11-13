@@ -66,6 +66,25 @@
 /**
  * @swagger
  *
+ * /comments/{id}:
+ *  delete:
+ *    tags:
+ *      - Comments
+ *    summary: Delete comment by id.
+ *    description: Delete comment by id.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        requerid: true
+ *        description: Id of the comment
+ *    responses:
+ *      200:
+ *        description: If the operation was successfully return 200.
+ */
+
+/**
+ * @swagger
+ *
  * /comments/{advertisementId}:
  *  get:
  *    tags:
@@ -164,6 +183,8 @@ const express = require("express");
 const router = express.Router();
 const commentController = require("../controllers/commentController");
 const { check } = require("express-validator");
+
+router.delete("/:id", commentController.deleteComment);
 
 router.get("/:advertisementId", commentController.getComments);
 
