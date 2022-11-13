@@ -9,8 +9,12 @@ const Advertisement = require("../models/mongo/Advertisement");
 const getComments = async (req, res) => {
   try {
     const { advertisementId } = req.params;
-    const comments = await Comment.find({ advertisementId });
-    res.status(200).json(comments);
+    if (isValidObjectId(advertisementId)) {
+      const comments = await Comment.find({ advertisementId });
+      res.status(200).json(comments);
+    } else {
+      res.status(400).send("Invalid advertisement id");
+    }
   } catch (error) {
     res.status(400).json(error).send("Sorry, something went wrong");
   }
@@ -44,8 +48,8 @@ const newComment = async (req, res) => {
         });
 
         res.status(200).send({
-          advertisement: [...advertisement.comments, commentSaved],
-          comment: commentSaved,
+          advertisementComments: [...advertisement.comments, commentSaved],
+          newComment: commentSaved,
         });
       } else {
         res.status(400).send("Invalid advertisement id");
