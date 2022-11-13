@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { getCar, getCars, newCar } = require("../controllers/carController");
+const {
+  getCar,
+  getCars,
+  newCar,
+  updateCar,
+} = require("../controllers/carController");
 const { check } = require("express-validator");
 
 router.get("/:id", getCar);
@@ -25,5 +30,7 @@ router.post(
   ],
   newCar
 );
+
+router.put("/:id", updateCar);
 
 module.exports = router;

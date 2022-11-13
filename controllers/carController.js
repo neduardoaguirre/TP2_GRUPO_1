@@ -54,8 +54,40 @@ const newCar = async (req, res) => {
     await car.save();
     res.json({ msg: "Car created successfuly", car: car });
   } catch (error) {
-    console.log(error);
-    res.status(400).send("Sorry, something went wrong");
+    res.status(400).json(error).send("Sorry, something went wrong");
+  }
+};
+
+/**
+ * Update car by id
+ */
+const updateCar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedValues = req.body;
+
+    if (!isValidObjectId(id)) {
+      res.status(400).send("Invalid car id");
+    } else if (updatedValues && Object.keys(updatedValues).length) {
+      const existCar = await Car.findOne({
+        licensePlate: updatedValues.licensePlate,
+      });
+
+      if (existCar && existCar.id !== id) {
+        res.status(400).send("License plate already in use");
+      } else {
+        const car = await Car.findOneAndUpdate(
+          { _id: id },
+          { $set: updatedValues },
+          { new: true }
+        );
+        res.status(200).json(car);
+      }
+    } else {
+      res.status(400).send("Missing car body params");
+    }
+  } catch (error) {
+    res.status(400).json(error).send("Sorry, something went wrong");
   }
 };
 
@@ -63,4 +95,5 @@ module.exports = {
   getCar,
   getCars,
   newCar,
+  updateCar,
 };
