@@ -64,6 +64,8 @@
  *
  * /cars:
  *  get:
+ *    tags:
+ *      - Cars
  *    summary: Get list of all cars.
  *    description: Get list of all cars.
  *    responses:
@@ -74,6 +76,29 @@
  *            schema:
  *              type: array
  *              items:
+ *                $ref: '#/components/schemas/Car'
+ */
+
+/**
+ * @swagger
+ *
+ * /cars/{id}:
+ *  get:
+ *    tags:
+ *      - Cars
+ *    summary: Get a car by id.
+ *    description: Get a car by id.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        requerid: true
+ *        description: Id of the car
+ *    responses:
+ *      200:
+ *        description: A car.
+ *        content:
+ *          application/json:
+ *            schema:
  *                $ref: '#/components/schemas/Car'
  */
 
