@@ -14,14 +14,14 @@
  *             __v:
  *               type: integer
  *               example: 0
- *         - $ref: '#/components/schemas/UpdateCar'
+ *         - $ref: '#/components/schemas/BodyCar'
  */
 
 /**
  * @swagger
  * components:
  *   schemas:
- *     UpdateCar:
+ *     BodyCar:
  *       type: object
  *       properties:
  *         licensePlate:
@@ -151,7 +151,7 @@
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/UpdateCar'
+ *            $ref: '#/components/schemas/BodyCar'
  *    responses:
  *      200:
  *        description: A car.
@@ -159,6 +159,37 @@
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Car'
+ */
+
+/**
+ * @swagger
+ *
+ * /cars:
+ *  post:
+ *    tags:
+ *      - Cars
+ *    summary: Add new car.
+ *    description: Add new car.
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/BodyCar'
+ *    responses:
+ *      200:
+ *        description: A car.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                msg:
+ *                  type: string
+ *                  example: "Car created successfully"
+ *                car:
+ *                  type: object
+ *                  $ref: '#/components/schemas/Car'
  */
 
 const express = require("express");
