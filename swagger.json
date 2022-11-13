@@ -1,0 +1,18 @@
+{
+  "definition": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "TP2 Grupo 1 API with Swagger",
+      "version": "1.0.0",
+      "description": "This is a API application made with Express and documented with Swagger to sell cars"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080/api"
+      }
+    ]
+  },
+  "apis": [
+    "./routes/*.js"
+  ]
+}

@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-require('dotenv').config({ path: '.env' });
+require("dotenv").config({ path: ".env" });
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
 
 class Server {
   constructor() {
@@ -19,13 +19,13 @@ class Server {
   cors() {
     this.app.use(cors());
   }
-  async connectDB() {
+  connectDB() {
     try {
-      await mongoose.connect(process.env.MONGODB_URL, {
+      mongoose.connect(process.env.MONGODB_URL, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
       });
-      console.log('DB conectada');
+      console.log("DB conectada");
     } catch (error) {
       console.log(error);
       process.exit(1);
