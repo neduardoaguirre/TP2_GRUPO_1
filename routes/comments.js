@@ -17,9 +17,8 @@
  *             advertisementId:
  *               type: string
  *               example: "636afa175b190c4bbb0145cf"
- *             answerId:
- *               type: string
- *               example: "6371309ed8e40d9ebd0842ff"
+ *             answer:
+ *               $ref: '#/components/schemas/Answer'
  *             date:
  *               type: date
  *               example: "2022-11-13T18:02:25.319Z"
@@ -27,6 +26,27 @@
  *             - advertisementId
  *             - date
  *         - $ref: '#/components/schemas/BodyComment'
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Answer:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           example: "636af9b732bdc95cd6db3592"
+ *         date:
+ *           type: date
+ *           example: "2022-11-13T18:02:25.319Z"
+ *         text:
+ *           type: string
+ *           example: "Comment test"
+ *       required:
+ *         - date
+ *         - text
  */
 
 /**
@@ -104,6 +124,42 @@
  *                  $ref: '#/components/schemas/Comment'
  */
 
+/**
+ * @swagger
+ *
+ * /comments/reply/{commentId}:
+ *  post:
+ *    tags:
+ *      - Comments
+ *    summary: Add new reply to comment.
+ *    description: Add new reply to comment.
+ *    parameters:
+ *      - in: path
+ *        name: commentId
+ *        requerid: true
+ *        description: Id of the comment
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/BodyComment'
+ *    responses:
+ *      200:
+ *        description: A advertisement with new comment.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                advertisementComments:
+ *                  type: array
+ *                  items:
+ *                    $ref: '#/components/schemas/Comment'
+ *                updatedComment:
+ *                  $ref: '#/components/schemas/Comment'
+ */
+
 const express = require("express");
 const router = express.Router();
 const commentController = require("../controllers/commentController");
@@ -115,6 +171,12 @@ router.post(
   "/:advertisementId",
   [check("text").not().isEmpty()],
   commentController.newComment
+);
+
+router.post(
+  "/reply/:commentId",
+  [check("text").not().isEmpty()],
+  commentController.newAnswer
 );
 
 module.exports = router;

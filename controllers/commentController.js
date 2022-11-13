@@ -21,6 +21,75 @@ const getComments = async (req, res) => {
 };
 
 /**
+ * Add new answer for comment
+ */
+const newAnswer = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ msg: errors.array() });
+  }
+
+  try {
+    const { commentId } = req.params;
+
+    if (isValidObjectId(commentId)) {
+      const comment = await Comment.findById({
+        _id: commentId,
+      });
+
+      if (comment) {
+        if (comment.answer && Object.keys(comment.answer).length) {
+          res.status(400).send("The comment id was already replied");
+        } else {
+          const advertisement = await Advertisement.findById({
+            _id: comment.advertisementId,
+          });
+
+          if (advertisement) {
+            const { text } = req.body;
+            const answer = {
+              date: new Date(),
+              text,
+            };
+
+            await comment.updateOne({
+              answer,
+            });
+
+            let updatedComment = null;
+            const commentsUpdated = advertisement.comments.map((c) => {
+              if (c._id.toString() === comment.id) {
+                c.answer = answer;
+                updatedComment = c;
+              }
+              return c;
+            });
+
+            await advertisement.updateOne({
+              comments: commentsUpdated,
+            });
+
+            res.status(200).send({
+              advertisementComments: commentsUpdated,
+              updatedComment: updatedComment,
+            });
+          } else {
+            res.status(400).send("Invalid comment id");
+          }
+        }
+      } else {
+        res.status(400).send("Invalid comment id");
+      }
+    } else {
+      res.status(400).send("Invalid comment id");
+    }
+  } catch (error) {
+    res.status(400).json(error).send("Sorry, something went wrong");
+  }
+};
+
+/**
  * Add new comment for advertisement
  */
 const newComment = async (req, res) => {
@@ -64,5 +133,6 @@ const newComment = async (req, res) => {
 
 module.exports = {
   getComments,
+  newAnswer,
   newComment,
 };
