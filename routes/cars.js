@@ -62,6 +62,25 @@
 /**
  * @swagger
  *
+ * /cars/{id}:
+ *  delete:
+ *    tags:
+ *      - Cars
+ *    summary: Delete a car by id.
+ *    description: Delete a car by id.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        requerid: true
+ *        description: Id of the car
+ *    responses:
+ *      200:
+ *        description: If the operation was successfully return 200.
+ */
+
+/**
+ * @swagger
+ *
  * /cars:
  *  get:
  *    tags:
