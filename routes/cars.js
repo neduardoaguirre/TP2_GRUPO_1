@@ -5,11 +5,25 @@
  * components:
  *   schemas:
  *     Car:
+ *       allOf:
+ *         - type: object
+ *           properties:
+ *             _id:
+ *               type: string
+ *               example: "636af9b732bdc95cd6db3592"
+ *             __v:
+ *               type: integer
+ *               example: 0
+ *         - $ref: '#/components/schemas/UpdateCar'
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UpdateCar:
  *       type: object
  *       properties:
- *         _id:
- *           type: string
- *           example: "636af9b732bdc95cd6db3592"
  *         licensePlate:
  *           type: string
  *           example: "AE788EB"
@@ -43,9 +57,6 @@
  *         milage:
  *           type: integer
  *           example: 1000
- *         __v:
- *           type: integer
- *           example: 0
  *       required:
  *         - licensePlate
  *         - brand
@@ -118,7 +129,36 @@
  *        content:
  *          application/json:
  *            schema:
- *                $ref: '#/components/schemas/Car'
+ *              $ref: '#/components/schemas/Car'
+ */
+
+/**
+ * @swagger
+ *
+ * /cars/{id}:
+ *  put:
+ *    tags:
+ *      - Cars
+ *    summary: Update a car by id.
+ *    description: Update a car by id.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        requerid: true
+ *        description: Id of the car
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/UpdateCar'
+ *    responses:
+ *      200:
+ *        description: A car.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Car'
  */
 
 const express = require("express");
