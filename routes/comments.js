@@ -1,8 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const advertisementController = require('../controllers/advertisementController');
-const { check } = require('express-validator');
+const commentController = require("../controllers/commentController");
+const { check } = require("express-validator");
 
-router.put('/:id', [check('text', 'The text field is required').not().isEmpty()], advertisementController.addComment);
+router.get("/:advertisementId", commentController.getComments);
+
+router.post(
+  "/:advertisementId",
+  [check("text").not().isEmpty()],
+  commentController.newComment
+);
 
 module.exports = router;

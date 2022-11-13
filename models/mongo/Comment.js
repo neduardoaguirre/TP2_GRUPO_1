@@ -1,20 +1,24 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const CommentSchema = new Schema({
-  id: {
-    type: Schema.Types.ObjectId
+  advertisementId: {
+    type: Schema.Types.ObjectId,
+    required: [true, "AdvertisingId is required"],
+  },
+  answerId: {
+    type: Schema.Types.ObjectId,
   },
   date: {
     type: Date,
-    required: [true, 'Date is required'],
+    required: [true, "Date is required"],
     trim: true,
-    default: Date.now()
+    default: Date.now(),
   },
   text: {
     type: String,
-    required: [true, 'Text is required'],
-    trim: true
-  }
+    required: [true, "Text is required"],
+    trim: true,
+  },
 });
 
-module.exports = model('Comment', CommentSchema);
+module.exports = model("Comment", CommentSchema);
