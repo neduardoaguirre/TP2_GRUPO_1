@@ -21,24 +21,7 @@ exports.newAdmin = async (req, res) => {
     const salt = await bcryptjs.genSalt(10);
     admin.password = await bcryptjs.hash(password, salt);
     await admin.save();
-
-    const payload = {
-      admin: {
-        id: admin.id
-      }
-    };
-
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      {
-        expiresIn: 3600
-      },
-      (error, token) => {
-        if (error) throw error;
-        res.json({ token });
-      }
-    );
+    res.json({ admin: admin, msg: 'Admin created succesfuly' });
   } catch (error) {
     console.log(error);
     res.status(400).send('Sorry, something went wrong');

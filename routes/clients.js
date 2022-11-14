@@ -2,13 +2,15 @@ const express = require('express');
 const router = express.Router();
 const { getClient, getAllClients, newClient, updateClient, deleteClient } = require('../controllers/clientController');
 const { check } = require('express-validator');
+const { isAdmin } = require('../middleware/role');
 
-router.get('/:id', getClient);
+router.get('/:id', isAdmin, getClient);
 
-router.get('/', getAllClients);
+router.get('/', isAdmin, getAllClients);
 
 router.post(
   '/',
+  isAdmin,
   [
     check('name', 'The Name field is required').not().isEmpty(),
     check('surname', 'The Surname field is required').not().isEmpty(),
@@ -25,8 +27,8 @@ router.post(
   newClient
 );
 
-router.put('/:id', updateClient)
+router.put('/:id', isAdmin, updateClient);
 
-router.delete('/:id', deleteClient)
+router.delete('/:id', isAdmin, deleteClient);
 
 module.exports = router;

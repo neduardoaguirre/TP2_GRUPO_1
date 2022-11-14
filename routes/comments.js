@@ -179,25 +179,18 @@
  *                  $ref: '#/components/schemas/Comment'
  */
 
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const commentController = require("../controllers/commentController");
-const { check } = require("express-validator");
+const commentController = require('../controllers/commentController');
+const { check } = require('express-validator');
+const auth = require('../middleware/auth');
 
-router.delete("/:id", commentController.deleteComment);
+router.delete('/:id', auth, commentController.deleteComment);
 
-router.get("/:advertisementId", commentController.getComments);
+router.get('/:advertisementId', auth, commentController.getComments);
 
-router.post(
-  "/:advertisementId",
-  [check("text").not().isEmpty()],
-  commentController.newComment
-);
+router.post('/:advertisementId', auth, [check('text').not().isEmpty()], commentController.newComment);
 
-router.post(
-  "/reply/:commentId",
-  [check("text").not().isEmpty()],
-  commentController.newAnswer
-);
+router.post('/reply/:commentId', auth, [check('text').not().isEmpty()], commentController.newAnswer);
 
 module.exports = router;
