@@ -3,6 +3,9 @@ const bcryptjs = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
+/**
+ * Get client by id
+ */
 const getClient = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -19,6 +22,9 @@ const getClient = async (req, res) => {
   }
 };
 
+/**
+ * Get all clients
+ */
 const getAllClients = async (req, res) => {
   try {
     const clients = await Client.find();
@@ -28,6 +34,9 @@ const getAllClients = async (req, res) => {
   }
 };
 
+/**
+ * Create a client
+ */
 const newClient = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -72,6 +81,9 @@ const newClient = async (req, res) => {
   }
 };
 
+/**
+ * Update client by id
+ */
 const updateClient = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -86,6 +98,9 @@ const updateClient = async (req, res) => {
   }
 };
 
+/**
+ * Delete client by id
+ */
 const deleteClient = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
