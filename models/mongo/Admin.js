@@ -11,6 +11,12 @@ const AdminSchema = new Schema({
     type: String,
     required: [true, 'Password is required'],
     trim: true
+  },
+  role: {
+    type: String,
+    required: [true, 'Role is required'],
+    trim: true,
+    default: 'admin'
   }
 });
 
