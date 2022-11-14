@@ -1,3 +1,66 @@
+// routes/authClient.js
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Client:
+ *       allOf:
+ *         - type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               example: "test@test.com"
+ *             password:
+ *               type: string
+ *               example: "Pass1234"
+ *         - $ref: '#/components/schemas/LoginClientBody'
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     LoginClientBody:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           example: "testClient@test.com"
+ *         password:
+ *           type: string
+ *           example: "Pass1234"
+ */
+
+/**
+ * @swagger
+ *
+ * /client_login:
+ *  post:
+ *    tags:
+ *      - Client
+ *    summary: Login as an Clien.
+ *    description: Login as an Client with email and password.
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/LoginClientBody'
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                msg:
+ *                  type: string
+ *                  example: "Login successfully"
+ *                token:
+ *                  type: string
+ */
+
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');

@@ -1,3 +1,66 @@
+// routes/authAdmin.js
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Admin:
+ *       allOf:
+ *         - type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               example: "test@test.com"
+ *             password:
+ *               type: string
+ *               example: "Pass1234"
+ *         - $ref: '#/components/schemas/LoginAdminBody'
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     LoginAdminBody:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           example: "testAdmin@test.com"
+ *         password:
+ *           type: string
+ *           example: "Pass1234"
+ */
+
+/**
+ * @swagger
+ *
+ * /admin_login:
+ *  post:
+ *    tags:
+ *      - Admins
+ *    summary: Login as an Admin.
+ *    description: Login as an Admin with email and password.
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/LoginAdminBody'
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                msg:
+ *                  type: string
+ *                  example: "Login successfully"
+ *                token:
+ *                  type: string
+ */
+
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
