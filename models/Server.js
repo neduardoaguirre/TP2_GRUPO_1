@@ -1,24 +1,29 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-require('dotenv').config({ path: '.env' });
+require("dotenv").config({ path: ".env" });
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
 
 class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT || 8080;
     this.path = {
+      swagger: '/api-docs',
       admin: '/api/admin',
       client: '/api/client',
       car: '/api/car',
       advertisement: '/api/advertisement',
-      comment: '/api/comment'
+      comment: '/api/comment',
+      adminLogin: '/api/admin_login',
+      clientLogin: '/api/client_login'
     }
 
     this.connectDB();
     this.middlewares()
 
-    // this.cors();
     this.routes()
   }
   listen() {
@@ -28,18 +33,21 @@ class Server {
   }
 
   middlewares() {
+    const specs = swaggerJsdoc(swaggerDocument);
+
+    this.app.use(this.path.swagger, swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
+
     this.app.use(cors())
 
     this.app.use(express.json({ extended: true }))
   }
-
-  async connectDB() {
+  connectDB() {
     try {
       mongoose.connect(process.env.MONGODB_URL, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
       });
-      console.log('DB conectada');
+      console.log("DB conectada");
     } catch (error) {
       console.log(error);
       process.exit(1);
@@ -52,6 +60,8 @@ class Server {
     this.app.use(this.path.car, require('../routes/cars'));
     this.app.use(this.path.advertisement, require('../routes/advertisements'));
     this.app.use(this.path.comment, require('../routes/comments'));
+    this.app.use(this.path.adminLogin, require('../routes/authAdmin'));
+    this.app.use(this.path.clientLogin, require('../routes/authClient'))
   }
 }
 

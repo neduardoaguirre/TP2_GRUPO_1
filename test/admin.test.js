@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
 const Admin = require("../models/Admin");
-const MongoAdmin = require('../models/mongo/Admin')
+const MongoAdmin = require('../models/Admin')
 
 describe("Admin", () => {
   // const admin = new Admin("admin@admin.com", "1234");

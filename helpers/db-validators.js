@@ -1,4 +1,4 @@
-const Admin = require("../models/mongo/Admin")
+const Admin = require("../models/Admin")
 
 const adminExists = async (id) => {
   const exists = await Admin.findById(id)

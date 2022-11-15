@@ -1,22 +1,23 @@
-class Admin {
-  constructor(mail, password) {
-    this.setMail(mail);
-    this.setPassword(password);
-  }
+const { Schema, model } = require('mongoose');
 
-  setMail(mail) {
-    if (mail === null || mail === undefined) {
-      throw new Error();
-    }
-    this.mail = mail;
+const AdminSchema = new Schema({
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    unique: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required'],
+    trim: true
+  },
+  role: {
+    type: String,
+    required: [true, 'Role is required'],
+    trim: true,
+    default: 'admin'
   }
+});
 
-  setPassword(password) {
-    if (password === null || password === undefined) {
-      throw new Error();
-    }
-    this.password = password;
-  }
-}
-
-module.exports = Admin;
+module.exports = model('Admin', AdminSchema);

@@ -1,4 +1,4 @@
-const Admin = require('../models/mongo/Admin');
+const Admin = require('../models/Admin');
 const bcryptjs = require('bcryptjs');
 const { generateJWT } = require('../helpers/generateJWT');
 
@@ -58,17 +58,15 @@ const getAllAdmin = async (req, res) => {
 }
 
 const getAdminById = async (req, res) => {
-  const admin = await Admin.findById(req.params.id);
-  res.status(200).json({ admin });
+  const admin = await Admin.findById(req.params.id).select('-password')
+  res.status(200).json(admin);
 }
 
 const updateAdmin = async (req, res) => {
   try {
-    let saltedAdmin = new Admin(req.body);
-    const salt = bcryptjs.genSaltSync();
-    saltedAdmin.password = bcryptjs.hashSync(req.body.password, salt);
-
-    const newAdmin = await Admin.findByIdAndUpdate(req.params.id, saltedAdmin, { new: true });
+    const { id } = req.params
+    let { email, ...rest } = req.body
+    const newAdmin = await Admin.findByIdAndUpdate({ _id: id }, { email }, { new: true });
     res.status(200).json({ newAdmin });
   } catch (err) {
     console.log('error', err)
