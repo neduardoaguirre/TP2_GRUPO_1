@@ -38,7 +38,7 @@
  * /admin_login:
  *  post:
  *    tags:
- *      - Admins
+ *      - Auth Admin
  *    summary: Login as an Admin.
  *    description: Login as an Admin with email and password.
  *    requestBody:

@@ -23,11 +23,8 @@ const createAdmin = async (req, res) => {
       }
     };
 
-    // CONTROLLER DE CREATE ADMIN SHOULD NOT HAVE TOKEN
-    const token = await generateJWT(payload)
     res.status(200).json({
-      admin,
-      token
+      admin
     })
 
   } catch (error) {

@@ -38,8 +38,8 @@
  * /client_login:
  *  post:
  *    tags:
- *      - Client
- *    summary: Login as an Clien.
+ *      - Auth Client
+ *    summary: Login as an Client.
  *    description: Login as an Client with email and password.
  *    requestBody:
  *      required: true
