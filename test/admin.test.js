@@ -1,30 +1,35 @@
 const expect = require("chai").expect;
-const Admin = require("../models/Admin");
+const assert = require('chai').assert
 const MongoAdmin = require('../models/Admin')
 
 describe("Admin", () => {
-  const newAdmin = new MongoAdmin({ email: 'admin@admin.com', password: '1234' })
 
-  describe("istancia valida", () => {
-    it("Guarda admin y verifica si existe o no un admin con ese mail ya", () => {
+  describe("Contraseña invalida", () => {
+    it("Verifica si existe un admin y si la contraseña es correcta", () => {
+      const newAdmin = new MongoAdmin({ email: 'admin@admin.com', password: 'test123' })
       newAdmin.save()
+        .then(() => {
+          assert(newAdmin.isNew)
+          done()
+        })
     });
   });
 
-  describe("instancia invalida", () => {
-    it("impide la creación por falta de mail", () => {
-      const crearAdminErroneo = () => {
-        const adminErroneo = new Admin(null, "1234");
-      };
-      expect(crearAdminErroneo).to.throw(Error);
+  describe("Instancia valida", () => {
+    it("Crea el admin correctamente", () => {
+      const crearAdminCorrecto = () => {
+        const newAdmin = new MongoAdmin({ email: 'admin@admin.com', password: 'Pass1234' })
+        newAdmin.save()
+      }
+      assert.isOk(crearAdminCorrecto)
     });
 
-    it("impide la creación por falta de password", () => {
+    it("Impide la creación por falta de password", () => {
       const crearAdminErroneo = () => {
-        const adminErroneo = new Admin("admin@admin.com", undefined);
+        const adminErroneo = new MongoAdmin("admin@admin.com", undefined);
+        adminErroneo.save()
       };
-
-      expect(crearAdminErroneo).to.throw(Error);
+      assert.isNotOk(crearAdminErroneo)
     });
   });
 });

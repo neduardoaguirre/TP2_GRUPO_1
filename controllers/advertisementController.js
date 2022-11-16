@@ -45,10 +45,10 @@ const getAdvertisementById = async (req, res) => {
 
   try {
     if (!adv) {
-      return res.status(400).json({msg: `Advertisement with id (${id}) does not exist`})
-    } 
+      return res.status(400).json({ msg: `Advertisement with id (${id}) does not exist` })
+    }
     return res.status(200).json(adv)
-   
+
   } catch (error) {
     res.status(400).json(error).send("Sorry, something went wrong");
   }
@@ -58,7 +58,7 @@ const getAdvertisementById = async (req, res) => {
  * Get all advertisements
  */
 
- const getAllAdvertisements = async (req, res) => {
+const getAllAdvertisements = async (req, res) => {
   try {
     const advs = await Advertisement.find();
     res.status(200).json(advs);
@@ -70,14 +70,14 @@ const getAdvertisementById = async (req, res) => {
 /**
  * Update advertisement by id
  */
- const updateAdvertisementById = async (req, res) => {
+const updateAdvertisementById = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
   }
 
   try {
-    await Advertisement.findByIdAndUpdate({ _id: req.params.id}, { $set: req.body }, { new: true });
+    await Advertisement.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
     res.status(200).json("Advertisement has been updated");
   } catch (error) {
     res.status(404).json(error).send("There is no advertisement with this id");
@@ -87,7 +87,7 @@ const getAdvertisementById = async (req, res) => {
 /**
  * Delete advertisement by id
  */
- const deleteAdvertisementById = async (req, res) => {
+const deleteAdvertisementById = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
@@ -101,7 +101,7 @@ const getAdvertisementById = async (req, res) => {
   }
 };
 
-exports.module = {
+module.exports = {
   newAdvertisement,
   getAdvertisementById,
   deleteAdvertisementById,

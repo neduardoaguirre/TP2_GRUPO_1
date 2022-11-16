@@ -18,6 +18,85 @@
  */
 
 /**
+ * 
+ * @swagger
+ *
+ * /advertisements:
+ *  post:
+ *    tags:
+ *      - Advertisements
+ *    summary: Add new advertisement.
+ *    description: Add new advertisement.
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/BodyAdvertisement'
+ *    responses:
+ *      200:
+ *        description: An advertisement.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                msg:
+ *                  type: string
+ *                  example: "Advertisement created successfully"
+ *                advertisement:
+ *                  type: object
+ *                  $ref: '#/components/schemas/Advertisement'
+ */
+
+
+/**
+ * @swagger
+ *
+ * /advertisements:
+ *  get:
+ *    tags:
+ *      - Advertisements
+ *    summary: Get list of all advertisements.
+ *    description: Get list of all advertisements.
+ *    responses:
+ *      200:
+ *        description: A list of advertisements.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Advertisement'
+ */
+
+
+
+/**
+* @swagger
+*
+* /advertisements/{id}:
+*  get:
+*    tags:
+*      - Advertisements
+*    summary: Get an advertisement by id.
+*    description: Get an advertisement by id.
+*    parameters:
+*      - in: path
+*        name: id
+*        requerid: true
+*        description: Id of the advertisement
+*    responses:
+*      200:
+*        description: An advertisement.
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/components/schemas/Advertisement'
+*/
+
+
+/**
  * @swagger
  * components:
  *   schemas:
@@ -51,96 +130,21 @@
  *         - date
  */
 
- const express = require('express');
- const router = express.Router();
- const { getAdvertisementById, updateAdvertisementById, deleteAdvertisementById, getAllAdvertisements, newAdvertisement } = require('../controllers/advertisementController');
- const { check } = require('express-validator');
- const { isAdmin } = require('../middleware/role');
-
-
- /**
- * @swagger
- *
- * /advertisements/{id}:
- *  get:
- *    tags:
- *      - Advertisements
- *    summary: Get an advertisement by id.
- *    description: Get an advertisement by id.
- *    parameters:
- *      - in: path
- *        name: id
- *        requerid: true
- *        description: Id of the advertisement
- *    responses:
- *      200:
- *        description: An advertisement.
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Advertisement'
- */
+const express = require('express');
+const router = express.Router();
+const { getAdvertisementById, updateAdvertisementById, deleteAdvertisementById, getAllAdvertisements, newAdvertisement } = require('../controllers/advertisementController');
+const { check } = require('express-validator');
+const { isAdmin } = require('../middleware/role');
 
 router.get('/:id',
-[
-  isAdmin,   
-  check('id', 'Please enter a valid id').isMongoId(),
-], getAdvertisementById);
+  [
+    isAdmin,
+    check('id', 'Please enter a valid id').isMongoId(),
+  ], getAdvertisementById);
 
-/**
- * @swagger
- *
- * /advertisements:
- *  get:
- *    tags:
- *      - Advertisements
- *    summary: Get list of all advertisements.
- *    description: Get list of all advertisements.
- *    responses:
- *      200:
- *        description: A list of advertisements.
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/Advertisement'
- */
+router.get('/', isAdmin, getAllAdvertisements);
 
- router.get('/', isAdmin, getAllAdvertisements);
-
-/**
- * @swagger
- *
- * /advertisements:
- *  post:
- *    tags:
- *      - Advertisements
- *    summary: Add new advertisement.
- *    description: Add new advertisement.
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/BodyAdvertisement'
- *    responses:
- *      200:
- *        description: An advertisement.
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                msg:
- *                  type: string
- *                  example: "Advertisement created successfully"
- *                advertisement:
- *                  type: object
- *                  $ref: '#/components/schemas/Advertisement'
- */
-
- router.post(
+router.post(
   '/',
   isAdmin,
   [
