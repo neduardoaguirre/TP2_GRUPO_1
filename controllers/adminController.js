@@ -1,6 +1,5 @@
 const Admin = require('../models/Admin');
 const bcryptjs = require('bcryptjs');
-const { generateJWT } = require('../helpers/generateJWT');
 
 const createAdmin = async (req, res) => {
   const { email, password } = req.body;
@@ -16,12 +15,6 @@ const createAdmin = async (req, res) => {
     const salt = bcryptjs.genSaltSync();
     admin.password = bcryptjs.hashSync(password, salt);
     await admin.save();
-
-    const payload = {
-      admin: {
-        id: admin.id
-      }
-    };
 
     res.status(200).json({
       admin

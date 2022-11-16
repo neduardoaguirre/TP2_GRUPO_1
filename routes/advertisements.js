@@ -135,21 +135,22 @@ const router = express.Router();
 const { getAdvertisementById, updateAdvertisementById, deleteAdvertisementById, getAllAdvertisements, newAdvertisement } = require('../controllers/advertisementController');
 const { check } = require('express-validator');
 const { isAdmin } = require('../middleware/role');
+const { validateFields } = require('../middleware/validate-fields');
 
 router.get('/:id',
   [
-    isAdmin,
     check('id', 'Please enter a valid id').isMongoId(),
   ], getAdvertisementById);
 
-router.get('/', isAdmin, getAllAdvertisements);
+router.get('/', getAllAdvertisements);
 
 router.post(
   '/',
   isAdmin,
   [
     check('car', 'The car field is required').not().isEmpty(),
-    check('payed', 'The payed field is required').not().isEmpty()
+    check('payed', 'The payed field is required').not().isEmpty(),
+    validateFields
   ],
   newAdvertisement
 );

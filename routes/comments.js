@@ -189,8 +189,10 @@ router.delete('/:id', auth, commentController.deleteComment);
 
 router.get('/:advertisementId', auth, commentController.getComments);
 
-router.post('/:advertisementId', auth, [check('text').not().isEmpty()], commentController.newComment);
+router.post('/:advertisementId', auth, [ check('text').not().isEmpty() ], commentController.newComment);
 
-router.post('/reply/:commentId', auth, [check('text').not().isEmpty()], commentController.newAnswer);
+router.post('/reply/:commentId', auth, [ check('text').not().isEmpty() ], commentController.newAnswer);
+
+router.get('/', commentController.getCommentsS)
 
 module.exports = router;

@@ -21,7 +21,7 @@ describe("Admin", () => {
         const newAdmin = new MongoAdmin({ email: 'admin@admin.com', password: 'Pass1234' })
         newAdmin.save()
       }
-      assert.isOk(crearAdminCorrecto)
+      assert.doesNotThrow(crearAdminCorrecto)
     });
 
     it("Impide la creación por falta de password", () => {
@@ -29,7 +29,7 @@ describe("Admin", () => {
         const adminErroneo = new MongoAdmin("admin@admin.com", undefined);
         adminErroneo.save()
       };
-      assert.isNotOk(crearAdminErroneo)
+      assert.throws(crearAdminErroneo)
     });
   });
 });
