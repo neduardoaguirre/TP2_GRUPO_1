@@ -1,9 +1,18 @@
+require("dotenv").config({ path: ".env" });
 const jwt = require('jsonwebtoken');
+
+const SKIP_AUTH = (/^true$/i).test(process.env.SKIP_AUTH);
+
 
 /**
  * Middleware to check token
  */
 module.exports = function (req, res, next) {
+  if (SKIP_AUTH) {
+    next();
+    return;
+  }
+
   // Read token from header
   const token = req.header('x-auth-token');
   const role = req.header('role');

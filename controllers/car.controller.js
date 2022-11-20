@@ -1,26 +1,20 @@
 const Car = require("../models/Car");
 const { validationResult } = require("express-validator");
 const { isValidObjectId } = require("mongoose");
+const CarRepository = require("../repositories/car.repository");
 
 /**
  * Delete car by id
  */
- const deleteCar = async (req, res) => {
+const deleteCar = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (isValidObjectId(id)) {
-      const car = await Car.findByIdAndDelete({ _id: id });
-      if (car) {
-        res.status(200).send("Car deleted successfully");
-      } else {
-        res.status(400).send("Invalid car id");
-      }
-    } else {
-      res.status(400).send("Invalid car id");
-    }
+    const response = await CarRepository.delete(id);
+    res.status(response.status).json(response);
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    console.error("CarController - deleteCar - ERROR: ", error);
+    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
   }
 };
 
@@ -63,20 +57,14 @@ const newCar = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
   }
-  const { licensePlate } = req.body;
 
   try {
-    let car = await Car.findOne({ licensePlate });
-    if (car) {
-      return res
-        .status(400)
-        .json({ msg: "An car already exist with this license plate" });
-    }
-    car = new Car(req.body);
-    await car.save();
-    res.json({ msg: "Car created successfully", car: car });
+    const car = req.body;
+    const response = await CarRepository.save(car);
+    res.status(response.status).json(response);
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    console.error("CarController - newCar - ERROR: ", error);
+    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
   }
 };
 

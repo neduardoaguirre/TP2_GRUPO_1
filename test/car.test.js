@@ -1,67 +1,74 @@
-const expect = require("chai").expect;
-const Auto = require("../models/Auto");
-const tipoCombustible = require("../constants/tipoCombustible");
+require("dotenv").config({ path: ".env" });
+const { expect } = require("chai");
+const mongoose = require("mongoose");
+const { carMock } = require("../mock/car.mock");
+const CarMongoose = require("../models/Car");
+const carRepository = require("../repositories/car.repository");
 
-describe("Auto", () => {
-  const auto = new Auto(
-    1000,
-    "Ferrari",
-    "F50",
-    "1995",
-    "Rojo",
-    "imagen-ejemplo",
-    5,
-    tipoCombustible.GASOLINA
-  );
+describe("Test's Auto", () => {
+  let carIdToDeleted = null;
 
-  describe("instancia valida", () => {
-    it("crea Auto satisfactoriamente", () => {
-      expect(auto).to.have.property("precio").with.equal(1000);
-      expect(auto).to.have.property("marca").with.equal("Ferrari");
-      expect(auto).to.have.property("modelo").with.equal("F50");
-      expect(auto).to.have.property("anio").with.equal("1995");
-      expect(auto).to.have.property("color").with.equal("Rojo");
-      expect(auto).to.have.property("img").with.equal("imagen-ejemplo");
-      expect(auto).to.have.property("cantPuertas").with.equal(5);
-      expect(auto)
-        .to.have.property("tipoCombustible")
-        .with.equal(tipoCombustible.GASOLINA);
+  before((done) => {
+    mongoose.connect(process.env.MONGODB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    const db = mongoose.connection;
+
+    db.on("error", console.error.bind(console, "Error al conectar la BD"));
+
+    db.once("open", function () {
+      console.log("BD conectada");
+      done();
     });
   });
 
-  describe("instancia invalida", () => {
-    it("impide la creacion por error en el precio", () => {
-      const errorPrecio = () => {
-        const autoPrecioErroneo = new Auto(
-          undefined,
-          "Ferrari",
-          "F50",
-          "1995",
-          "Rojo",
-          "imagen-ejemplo",
-          5,
-          tipoCombustible.GASOLINA
-        );
-      };
+  after((done) => {
+    CarMongoose.deleteOne({ licensePlate: carMock.licensePlate }).then(() => {
+      mongoose.disconnect().then(() => {
+        console.log("BD desconectada");
+        done();
+      });
+    });
+  });
 
-      expect(errorPrecio).to.throw(Error);
+  describe("Guardar auto", () => {
+    it("Auto guardado", async () => {
+      const response = await carRepository.save(carMock);
+      const status = response.status;
+      const data = response.data;
+
+      carIdToDeleted = data.id;
+
+      expect(data).to.be.an("Object");
+      expect(data.licensePlate).equal(carMock.licensePlate);
+      expect(status).equal(200);
     });
 
-    it("impide la creacion por error en cantidad de puertas", () => {
-      const errorCantPuertas = () => {
-        const autoError = new Auto(
-          1000,
-          "Ferrari",
-          "F50",
-          "1995",
-          "Rojo",
-          "imagen-ejemplo",
-          25,
-          tipoCombustible.GASOLINA
-        );
-      };
+    it("Auto no guardado", async () => {
+      const response = await carRepository.save(carMock);
+      const status = response.status;
+      const data = response.data;
 
-      expect(errorCantPuertas).to.throw(Error);
+      expect(data).equal(undefined);
+      expect(status).equal(400);
+    });
+  });
+
+  describe("Borrar auto", () => {
+    it("Auto borrado", async () => {
+      const response = await carRepository.delete(carIdToDeleted);
+      const status = response.status;
+
+      expect(status).equal(200);
+    });
+
+    it("Auto no borrado", async () => {
+      const response = await carRepository.delete(carIdToDeleted);
+      const status = response.status;
+
+      expect(status).equal(400);
     });
   });
 });
