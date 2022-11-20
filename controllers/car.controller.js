@@ -59,8 +59,8 @@ const newCar = async (req, res) => {
   }
 
   try {
-    const car = req.body;
-    const response = await CarRepository.save(car);
+    const carBody = req.body;
+    const response = await CarRepository.save(carBody);
     res.status(response.status).json(response);
   } catch (error) {
     console.error("CarController - newCar - ERROR: ", error);
@@ -74,30 +74,11 @@ const newCar = async (req, res) => {
 const updateCar = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedValues = req.body;
-
-    if (!isValidObjectId(id)) {
-      res.status(400).send("Invalid car id");
-    } else if (updatedValues && Object.keys(updatedValues).length) {
-      const existCar = await Car.findOne({
-        licensePlate: updatedValues.licensePlate,
-      });
-
-      if (existCar && existCar.id !== id) {
-        res.status(400).send("License plate already in use");
-      } else {
-        const car = await Car.findOneAndUpdate(
-          { _id: id },
-          { $set: updatedValues },
-          { new: true }
-        );
-        res.status(200).json(car);
-      }
-    } else {
-      res.status(400).send("Missing car body params");
-    }
+    const carBody = req.body;
+    const response = await CarRepository.edit(id, carBody);
+    res.status(response.status).json(response);
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
   }
 };
 
