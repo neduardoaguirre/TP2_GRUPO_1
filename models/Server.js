@@ -1,10 +1,10 @@
 require("dotenv").config({ path: ".env" });
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("../swagger.json");
+const DB = require("../helpers/db.helper");
 
 class Server {
   constructor() {
@@ -20,15 +20,17 @@ class Server {
       adminLogin: "/api/admin_login",
       clientLogin: "/api/client_login",
     };
-
-    this.connectDB();
-    this.middlewares();
-
-    this.routes();
   }
+
   listen() {
-    this.app.listen(this.port, () => {
-      console.log(`Server listening on ${this.port}`);
+    DB.connect().then(() => {
+      this.middlewares();
+
+      this.routes();
+
+      this.app.listen(this.port, () => {
+        console.log(`Server listening on ${this.port}`);
+      });
     });
   }
 
@@ -44,18 +46,6 @@ class Server {
     this.app.use(cors());
 
     this.app.use(express.json({ extended: true }));
-  }
-  connectDB() {
-    try {
-      mongoose.connect(process.env.MONGODB_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-      console.log("DB conectada");
-    } catch (error) {
-      console.log(error);
-      process.exit(1);
-    }
   }
 
   routes() {

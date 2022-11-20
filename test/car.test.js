@@ -1,6 +1,6 @@
 require("dotenv").config({ path: ".env" });
 const { expect } = require("chai");
-const mongoose = require("mongoose");
+const DB = require("../helpers/db.helper");
 const { carMock } = require("../mocks/car.mock");
 const CarMongoose = require("../models/Car");
 const carRepository = require("../repositories/car.repository");
@@ -9,27 +9,12 @@ describe("Test's Auto", () => {
   let carIdToDeleted = null;
 
   before((done) => {
-    mongoose.connect(process.env.MONGODB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-    const db = mongoose.connection;
-
-    db.on("error", console.error.bind(console, "Error al conectar la BD"));
-
-    db.once("open", function () {
-      console.log("BD conectada");
-      done();
-    });
+    DB.connect().then(done());
   });
 
   after((done) => {
     CarMongoose.deleteOne({ licensePlate: carMock.licensePlate }).then(() => {
-      mongoose.disconnect().then(() => {
-        console.log("BD desconectada");
-        done();
-      });
+      DB.disconnect().then(done());
     });
   });
 
