@@ -1,5 +1,3 @@
-// routes/clients.js
-
 /**
  * @swagger
  * components:

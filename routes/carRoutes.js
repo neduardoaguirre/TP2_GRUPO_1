@@ -1,5 +1,3 @@
-// routes/cars.js
-
 /**
  * @swagger
  * components:

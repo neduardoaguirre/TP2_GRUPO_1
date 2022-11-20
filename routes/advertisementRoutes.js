@@ -1,5 +1,3 @@
-// routes/advertisements.js
-
 /**
  * @swagger
  * components:
@@ -18,7 +16,7 @@
  */
 
 /**
- * 
+ *
  * @swagger
  *
  * /advertisements:
@@ -103,9 +101,9 @@
  *     BodyAdvertisement:
  *       type: object
  *       properties:
- *         car: 
+ *         car:
  *           type: object
- *           example: 
+ *           example:
  *              licensePlate: "AE788EB"
  *              brand: "Toyota"
  *              model: "Yaris"

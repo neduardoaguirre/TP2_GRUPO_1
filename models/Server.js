@@ -56,12 +56,12 @@ class Server {
 
   routes() {
     this.app.use(this.path.admin, require('../routes/adminRoutes'));
-    this.app.use(this.path.client, require('../routes/clients'));
-    this.app.use(this.path.car, require('../routes/cars'));
-    this.app.use(this.path.advertisement, require('../routes/advertisements'));
-    this.app.use(this.path.comment, require('../routes/comments'));
-    this.app.use(this.path.adminLogin, require('../routes/authAdmin'));
-    this.app.use(this.path.clientLogin, require('../routes/authClient'))
+    this.app.use(this.path.advertisement, require('../routes/advertisementRoutes'));
+    this.app.use(this.path.adminLogin, require('../routes/authAdminRoutes'));
+    this.app.use(this.path.clientLogin, require('../routes/authClientRoutes'))
+    this.app.use(this.path.car, require('../routes/carRoutes'));
+    this.app.use(this.path.client, require('../routes/clientRoutes'));
+    this.app.use(this.path.comment, require('../routes/commentRoutes'));
   }
 }
 

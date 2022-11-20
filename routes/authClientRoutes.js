@@ -1,10 +1,8 @@
-// routes/authAdmin.js
-
 /**
  * @swagger
  * components:
  *   schemas:
- *     Admin:
+ *     Client:
  *       allOf:
  *         - type: object
  *           properties:
@@ -14,19 +12,19 @@
  *             password:
  *               type: string
  *               example: "Pass1234"
- *         - $ref: '#/components/schemas/LoginAdminBody'
+ *         - $ref: '#/components/schemas/LoginClientBody'
  */
 
 /**
  * @swagger
  * components:
  *   schemas:
- *     LoginAdminBody:
+ *     LoginClientBody:
  *       type: object
  *       properties:
  *         email:
  *           type: string
- *           example: "testAdmin@test.com"
+ *           example: "testClient@test.com"
  *         password:
  *           type: string
  *           example: "Pass1234"
@@ -35,18 +33,18 @@
 /**
  * @swagger
  *
- * /admin_login:
+ * /client_login:
  *  post:
  *    tags:
- *      - Auth Admin
- *    summary: Login as an Admin.
- *    description: Login as an Admin with email and password.
+ *      - Auth Client
+ *    summary: Login as an Client.
+ *    description: Login as an Client with email and password.
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/LoginAdminBody'
+ *            $ref: '#/components/schemas/LoginClientBody'
  *    responses:
  *      200:
  *        content:
@@ -64,7 +62,7 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const authAdminController = require('../controllers/authAdminController');
+const authClientController = require('../controllers/authClientController');
 
 router.post(
   '/',
@@ -75,7 +73,7 @@ router.post(
       'Password must contain between 8 and 12 characters, including numbers, upper/lowercase letters and do not use spaces.'
     ).isLength({ min: 8 })
   ],
-  authAdminController.loginAdmin
+  authClientController.loginClient
 );
 
 module.exports = router;

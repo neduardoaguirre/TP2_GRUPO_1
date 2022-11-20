@@ -1,5 +1,3 @@
-// routes/comments.js
-
 /**
  * @swagger
  * components:
