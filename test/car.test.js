@@ -1,7 +1,7 @@
 require("dotenv").config({ path: ".env" });
 const { expect } = require("chai");
 const mongoose = require("mongoose");
-const { carMock } = require("../mock/car.mock");
+const { carMock } = require("../mocks/car.mock");
 const CarMongoose = require("../models/Car");
 const carRepository = require("../repositories/car.repository");
 
