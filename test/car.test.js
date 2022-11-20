@@ -56,8 +56,6 @@ describe("Test's Auto", () => {
       const status = response.status;
       const data = response.data;
 
-      carId = data.id;
-
       expect(data).to.be.an("Object");
       expect(data.id).equal(carId);
       expect(data.licensePlate).equal(carMock.licensePlate);
