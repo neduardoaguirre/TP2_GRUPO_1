@@ -82,7 +82,7 @@ class CarRepository {
       console.error(this.TAG, "get - ERROR: ", error);
       return {
         msg: "Sorry, something went wrong",
-        status: 200,
+        status: 500,
       };
     }
   }
@@ -103,7 +103,7 @@ class CarRepository {
       console.error(this.TAG, "getAll - ERROR: ", error);
       return {
         msg: "Sorry, something went wrong",
-        status: 200,
+        status: 500,
       };
     }
   }

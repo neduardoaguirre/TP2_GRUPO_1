@@ -58,7 +58,7 @@ class Server {
     this.app.use(this.path.clientLogin, require("../routes/authClientRoutes"));
     this.app.use(this.path.car, require("../routes/car.route"));
     this.app.use(this.path.client, require("../routes/clientRoutes"));
-    this.app.use(this.path.comment, require("../routes/commentRoutes"));
+    this.app.use(this.path.comment, require("../routes/comment.route"));
   }
 }
 
