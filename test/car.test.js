@@ -9,12 +9,12 @@ describe("Test's Auto", () => {
   let carIdToDeleted = null;
 
   before((done) => {
-    DB.connect().then(done());
+    DB.connect().then(() => done());
   });
 
   after((done) => {
     CarMongoose.deleteOne({ licensePlate: carMock.licensePlate }).then(() => {
-      DB.disconnect().then(done());
+      DB.disconnect().then(() => done());
     });
   });
 
