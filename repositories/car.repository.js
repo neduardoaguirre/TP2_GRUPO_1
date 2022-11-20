@@ -60,6 +60,55 @@ class CarRepository {
   }
 
   /**
+   * Get one car by id from database
+   * @param id Car id
+   */
+  async get(id) {
+    try {
+      if (isValidObjectId(id)) {
+        const car = await Car.findById({ _id: id });
+        return {
+          data: car,
+          msg: "Get car successfully",
+          status: 200,
+        };
+      } else {
+        return {
+          msg: "Invalid car id",
+          status: 400,
+        };
+      }
+    } catch (error) {
+      console.error(this.TAG, "get - ERROR: ", error);
+      return {
+        msg: "Sorry, something went wrong",
+        status: 200,
+      };
+    }
+  }
+
+  /**
+   * Get all cars from database
+   */
+  async getAll() {
+    try {
+      const cars = await Car.find();
+
+      return {
+        data: cars,
+        msg: "Get all cars successfully",
+        status: 200,
+      };
+    } catch (error) {
+      console.error(this.TAG, "getAll - ERROR: ", error);
+      return {
+        msg: "Sorry, something went wrong",
+        status: 200,
+      };
+    }
+  }
+
+  /**
    * Delete car from database
    * @param id  Car id
    */

@@ -24,15 +24,11 @@ const deleteCar = async (req, res) => {
 const getCar = async (req, res) => {
   try {
     const { id } = req.params;
-
-    if (isValidObjectId(id)) {
-      const car = await Car.findById({ _id: id });
-      res.status(200).json(car);
-    } else {
-      res.status(400).send("Invalid car id");
-    }
+    const response = await CarRepository.get(id);
+    res.status(response.status).json(response);
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    console.error("CarController - getCar - ERROR: ", error);
+    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
   }
 };
 
@@ -41,10 +37,11 @@ const getCar = async (req, res) => {
  */
 const getCars = async (req, res) => {
   try {
-    const cars = await Car.find();
-    res.status(200).json(cars);
+    const response = await CarRepository.getAll();
+    res.status(response.status).json(response);
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    console.error("CarController - getCars - ERROR: ", error);
+    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
   }
 };
 
@@ -78,6 +75,7 @@ const updateCar = async (req, res) => {
     const response = await CarRepository.edit(id, carBody);
     res.status(response.status).json(response);
   } catch (error) {
+    console.error("CarController - updateCar - ERROR: ", error);
     res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
   }
 };

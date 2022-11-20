@@ -41,6 +41,39 @@ describe("Test's Auto", () => {
     });
   });
 
+  describe("Obtener autos", () => {
+    it("Autos encontrados", async () => {
+      const response = await carRepository.getAll();
+      const status = response.status;
+      const data = response.data;
+
+      expect(data.length).to.be.greaterThan(0);
+      expect(status).equal(200);
+    });
+
+    it("Auto encontrado", async () => {
+      const response = await carRepository.get(carId);
+      const status = response.status;
+      const data = response.data;
+
+      carId = data.id;
+
+      expect(data).to.be.an("Object");
+      expect(data.id).equal(carId);
+      expect(data.licensePlate).equal(carMock.licensePlate);
+      expect(status).equal(200);
+    });
+
+    it("Auto no encontrado", async () => {
+      const response = await carRepository.get("123");
+      const status = response.status;
+      const data = response.data;
+
+      expect(data).equal(undefined);
+      expect(status).equal(400);
+    });
+  });
+
   describe("Editar auto", () => {
     it("Auto editado", async () => {
       const carUpdate = {
