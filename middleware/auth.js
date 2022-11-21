@@ -1,8 +1,7 @@
-require("dotenv").config({ path: ".env" });
+require('dotenv').config({ path: '.env' });
 const jwt = require('jsonwebtoken');
 
-const SKIP_AUTH = (/^true$/i).test(process.env.SKIP_AUTH);
-
+const SKIP_AUTH = /^true$/i.test(process.env.SKIP_AUTH);
 
 /**
  * Middleware to check token
@@ -21,7 +20,7 @@ module.exports = function (req, res, next) {
 
   // Validate token
   try {
-    const encrypted = jwt.verify(token, process.env.SECRET);
+    const encrypted = jwt.verify(token, process.env.JWT_SECRET);
     req.user = encrypted.user;
     next();
   } catch (error) {
