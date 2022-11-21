@@ -1,112 +1,107 @@
-# Requisitos
+# Requirements
 
-### 1) Instalar:
+### 1) Install:
 
 - NodeJS: v16+
 - NPM: v8+
 
-### 2) Instalar dependencias:
+### 2) Install dependencies:
 
 > npm i
 
-### 3) Ejecutar proyecto:
+### 3) Execute project:
 
 > npm run start
 
-### 4) Ejecutar test's cases:
+### 4) Execute tests cases:
 
 > npm run _nombre_del_test_
 
-Test's disponibles:
+Tests avaliable:
 
 - test-admin
-- test-auto
-- test-cliente
-- test-comentario
-- test-publicacion
-- test-respuesta
+- test-car
+- test-client
+- test-comment
+- test-advertisement
 
-Ejemplo:
+Example:
 
-> npm run test-auto
+> npm run test-car
 
-Correr todos los tests disponibles:
+Run all avaliable tests
 
 - npm run test
 
 # Trabajo Integrador TP2 - Grupo 1
 
-## Objetivo
+## Goal
 
-### El proyecto consistirá en una aplicación web orientada a la venta de autos. El principal objetivo es que la empresa que administre la aplicación publique autos de manera diaria incorporando toda la informacion del vehiculo. Los clientes poseerán usuarios a través de los cuales tendrán la posibilidad de buscar autos por modelo, año, marca, precio. También podrán señar el el auto para luego proceder con la compra del mismo en el local. Además, una vez iniciada sesión los usuarios podrán realizar consultas en la publicación (comentarios) los cuales serán respondidos por la empresa (usuarios administrativos).
+### The project consists of a web application oriented to the sale of cars. The main objective is that the company who manages the application, publishes cars on a daily basis, incorporating the whole vehicle information. Customers will have users through whom they will be able to search for cars by model, year, brand or price. They will also be able to sign the car and then proceed with the purchase of it on the premises. In addition, once logged in, users will be able to make queries on the advertisement comments, which will be answered by the company administrative users.
 
-## Entidades
+## Entities
 
 ###
 
-- Auto
-- Cliente
+- Car
+- Client
 - Admin
-- Comentario
-- Publicacion
-- Respuesta
+- Comment
+- Advertisement
 
-**Auto**
+**Car**
 
 ```
-- precio
-- marca
-- modelo
-- anio
+- licensePlate
+- brand 
+- model 
+- year
+- price 
+- description
+- image
 - color
-- img
-- cantPuertas
-- tipoCombustible
+- doors
+- fuel
+- milage
 ```
 
-**Cliente**
+**Client**
 
 ```
-- mail
-- pass
-- nombre
-- apellido
+- email
+- password
+- role
+- name
+- surname
 - dni
-- historial
-- favoritos
-- autosSeniados
+- historyOfSearch
+- favorite
+- downPaymentCars
 ```
 
 **Admin**
 
 ```
-- mail
+- email
 - password
+- role
 ```
 
-**Comentario**
+**Comment**
 
 ```
-- fecha
-- texto
-- respuesta
+- advertisementId
+- baseComment
 ```
 
-**Publicacion**
+**Advertisement**
 
 ```
-- auto
-- fecha
-- seniado
-- comentarios
-- titulo
-- descripcion
-- ubicacion
-```
-
-**Respuesta**
-
-```
-- fecha
-- texto
+- car
+- date
+- paid
+- comments
+- title
+- description
+- location
 ```
