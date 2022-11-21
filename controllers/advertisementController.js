@@ -14,8 +14,8 @@ const newAdvertisement = async (req, res) => {
 
   try {
     const advertisementBody = req.body
-    const response = await AdvertisementRepository.save(advertisementBody);
-    res.status(response.status).json(response);
+    const advertisement = await AdvertisementRepository.save(advertisementBody);
+    res.status(advertisement.status).json(advertisement);
   } catch (error) {
     console.error("AdvertisementController - newAdvertisement - ERROR: ", error);
     res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
@@ -30,7 +30,7 @@ const getAdvertisementById = async (req, res) => {
   try {
     const { id } = req.params
     const advertisement = await AdvertisementRepository.get(id)
-    res.status(response.status).json(response);
+    res.status(advertisement.status).json(advertisement);
   } catch (error) {
     console.error("AdvertisementController - getAdvertisement - ERROR: ", error);
     res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
@@ -71,8 +71,8 @@ const updateAdvertisementById = async (req, res) => {
 const deleteAdvertisementById = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await AdvertisementRepository.delete(id);
-    res.status(response.status).json(response);
+    const advertisement = await AdvertisementRepository.delete(id);
+    res.status(advertisement.status).json(advertisement);
   } catch (error) {
     console.error("AdvertisementController - deleteAdvertisement - ERROR: ", error);
     res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
