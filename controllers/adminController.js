@@ -1,6 +1,9 @@
 const Admin = require('../models/Admin');
 const bcryptjs = require('bcryptjs');
 
+/**
+ * Create new admin
+ */
 const createAdmin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -25,6 +28,9 @@ const createAdmin = async (req, res) => {
   }
 };
 
+/**
+ * Delete admin by id
+ */
 const deleteAdmin = async (req, res) => {
   await Admin.findOneAndRemove({ _id: req.params.id });
   res.status(200).json({ msg: `Admin deleted ${req.params.id}` });
@@ -44,11 +50,17 @@ const getAllAdmin = async (req, res) => {
   });
 };
 
+/**
+ * Get admin by id
+ */
 const getAdminById = async (req, res) => {
   const admin = await Admin.findById(req.params.id).select('-password');
   res.status(200).json(admin);
 };
 
+/**
+ * Update admin by id
+ */
 const updateAdmin = async (req, res) => {
   try {
     const { id } = req.params;
