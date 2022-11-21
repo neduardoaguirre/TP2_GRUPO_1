@@ -67,7 +67,9 @@ class AdvertisementRepository {
   async get(id) {
     try {
       if (isValidObjectId(id)) {
-        const advertisement = await Advertisement.findById({ _id: id });
+        const advertisement = await Advertisement.findById({ _id: id })
+          .populate('comments')
+          .populate('car')
         return {
           data: advertisement,
           msg: "Get advertisement successfully",
