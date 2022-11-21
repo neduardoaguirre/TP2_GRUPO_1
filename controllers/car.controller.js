@@ -1,20 +1,26 @@
 const Car = require("../models/Car");
 const { validationResult } = require("express-validator");
 const { isValidObjectId } = require("mongoose");
-const CarRepository = require("../repositories/car.repository");
 
 /**
  * Delete car by id
  */
-const deleteCar = async (req, res) => {
+ const deleteCar = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const response = await CarRepository.delete(id);
-    res.status(response.status).json(response);
+    if (isValidObjectId(id)) {
+      const car = await Car.findByIdAndDelete({ _id: id });
+      if (car) {
+        res.status(200).send("Car deleted successfully");
+      } else {
+        res.status(400).send("Invalid car id");
+      }
+    } else {
+      res.status(400).send("Invalid car id");
+    }
   } catch (error) {
-    console.error("CarController - deleteCar - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    res.status(400).json(error).send("Sorry, something went wrong");
   }
 };
 
@@ -24,11 +30,15 @@ const deleteCar = async (req, res) => {
 const getCar = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await CarRepository.get(id);
-    res.status(response.status).json(response);
+
+    if (isValidObjectId(id)) {
+      const car = await Car.findById({ _id: id });
+      res.status(200).json(car);
+    } else {
+      res.status(400).send("Invalid car id");
+    }
   } catch (error) {
-    console.error("CarController - getCar - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    res.status(400).json(error).send("Sorry, something went wrong");
   }
 };
 
@@ -37,11 +47,10 @@ const getCar = async (req, res) => {
  */
 const getCars = async (req, res) => {
   try {
-    const response = await CarRepository.getAll();
-    res.status(response.status).json(response);
+    const cars = await Car.find();
+    res.status(200).json(cars);
   } catch (error) {
-    console.error("CarController - getCars - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    res.status(400).json(error).send("Sorry, something went wrong");
   }
 };
 
@@ -54,14 +63,20 @@ const newCar = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
   }
+  const { licensePlate } = req.body;
 
   try {
-    const carBody = req.body;
-    const response = await CarRepository.save(carBody);
-    res.status(response.status).json(response);
+    let car = await Car.findOne({ licensePlate });
+    if (car) {
+      return res
+        .status(400)
+        .json({ msg: "An car already exist with this license plate" });
+    }
+    car = new Car(req.body);
+    await car.save();
+    res.json({ msg: "Car created successfully", car: car });
   } catch (error) {
-    console.error("CarController - newCar - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    res.status(400).json(error).send("Sorry, something went wrong");
   }
 };
 
@@ -71,12 +86,30 @@ const newCar = async (req, res) => {
 const updateCar = async (req, res) => {
   try {
     const { id } = req.params;
-    const carBody = req.body;
-    const response = await CarRepository.edit(id, carBody);
-    res.status(response.status).json(response);
+    const updatedValues = req.body;
+
+    if (!isValidObjectId(id)) {
+      res.status(400).send("Invalid car id");
+    } else if (updatedValues && Object.keys(updatedValues).length) {
+      const existCar = await Car.findOne({
+        licensePlate: updatedValues.licensePlate,
+      });
+
+      if (existCar && existCar.id !== id) {
+        res.status(400).send("License plate already in use");
+      } else {
+        const car = await Car.findOneAndUpdate(
+          { _id: id },
+          { $set: updatedValues },
+          { new: true }
+        );
+        res.status(200).json(car);
+      }
+    } else {
+      res.status(400).send("Missing car body params");
+    }
   } catch (error) {
-    console.error("CarController - updateCar - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    res.status(400).json(error).send("Sorry, something went wrong");
   }
 };
 
