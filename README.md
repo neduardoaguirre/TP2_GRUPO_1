@@ -33,7 +33,7 @@ Run all avaliable tests
 
 - npm run test
 
-# Trabajo Integrador TP2 - Grupo 1
+# TP2 - Group 1
 
 ## Goal
 
