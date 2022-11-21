@@ -57,12 +57,6 @@
  *         - surname
  *         - dni
  */
-const express = require('express');
-const router = express.Router();
-const { getClient, getAllClients, newClient, updateClient, deleteClient } = require('../controllers/clientController');
-const { check } = require('express-validator');
-const { isAdmin } = require('../middleware/role');
-
 
 /**
  * @swagger
@@ -86,8 +80,6 @@ const { isAdmin } = require('../middleware/role');
  *            schema:
  *              $ref: '#/components/schemas/Client'
  */
-router.get('/:id', isAdmin, getClient);
-
 /**
  * @swagger
  *
@@ -107,8 +99,6 @@ router.get('/:id', isAdmin, getClient);
  *              items:
  *                $ref: '#/components/schemas/Client'
  */
-router.get('/', isAdmin, getAllClients);
-
 /**
  * @swagger
  *
@@ -139,25 +129,6 @@ router.get('/', isAdmin, getAllClients);
  *                  type: object
  *                  $ref: '#/components/schemas/Client'
  */
-router.post(
-  '/',
-  isAdmin,
-  [
-    check('name', 'The Name field is required').not().isEmpty(),
-    check('surname', 'The Surname field is required').not().isEmpty(),
-    check('dni', 'The DNI field is required').not().isEmpty(),
-    check('email', 'Please enter a valid email address').isEmail(),
-    check(
-      'password',
-      'Password must contain between 8 and 12 characters, including numbers, upper/lowercase letters and do not use spaces.'
-    )
-      .isLength({ min: 8 })
-      .isLength({ max: 12 })
-      .matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,12}$/)
-  ],
-  newClient
-);
-
 /**
  * @swagger
  *
@@ -186,8 +157,6 @@ router.post(
  *            schema:
  *              $ref: '#/components/schemas/Client'
  */
-router.put('/:id', isAdmin, updateClient);
-
 /**
  * @swagger
  *
@@ -206,6 +175,33 @@ router.put('/:id', isAdmin, updateClient);
  *      200:
  *        description: If the operation was successfully return 200.
  */
-router.delete('/:id', isAdmin, deleteClient);
+const express = require('express');
+const router = express.Router();
+const { getClient, getAllClients, newClient, updateClient, deleteClient } = require('../controllers/clientController');
+const { check } = require('express-validator');
+const { isAdmin, isClient } = require('../middleware/role');
+const auth = require('../middleware/auth');
+
+router.get('/:id', auth, isAdmin, getClient);
+router.get('/', auth, isAdmin, getAllClients);
+router.post(
+  '/',
+  [
+    check('name', 'The Name field is required').not().isEmpty(),
+    check('surname', 'The Surname field is required').not().isEmpty(),
+    check('dni', 'The DNI field is required').not().isEmpty(),
+    check('email', 'Please enter a valid email address').isEmail(),
+    check(
+      'password',
+      'Password must contain between 8 and 12 characters, including numbers, upper/lowercase letters and do not use spaces.'
+    )
+      .isLength({ min: 8 })
+      .isLength({ max: 12 })
+      .matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,12}$/)
+  ],
+  newClient
+);
+router.put('/:id', auth, isClient, updateClient);
+router.delete('/:id', auth, isClient, deleteClient);
 
 module.exports = router;
