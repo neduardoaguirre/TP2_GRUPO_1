@@ -101,7 +101,7 @@
  *     BodyAdvertisement:
  *       type: object
  *       properties:
- *         car:
+ *        car:
  *           type: object
  *           example:
  *              licensePlate: "AE788EB"
@@ -115,43 +115,29 @@
  *              doors: 5
  *              fuel: "Nafta"
  *              milage: 1000
- *         date:
+ *        date:
  *            type: date
  *            example: "2022-11-13T18:02:25.319Z"
- *         comments:
+ *        comments:
  *            type: array
- *         payed:
+ *        payed:
  *            type: boolean
  *            example: true
+ *        title:
+ *            type: string
+ *            example: "Toyota Yaris a la venta"
+ *        description:
+ *            type: string
+ *            example: "Auto nuevo 0 km"
+ *        location:
+ *            type: string
+ *            example: "Recoleta, CABA"
  *       required:
  *         - car
  *         - date
+ *         - title
+ *         - location
  */
-
-const express = require('express');
-const router = express.Router();
-const { getAdvertisementById, updateAdvertisementById, deleteAdvertisementById, getAllAdvertisements, newAdvertisement } = require('../controllers/advertisementController');
-const { check } = require('express-validator');
-const { isAdmin } = require('../middleware/role');
-const { validateFields } = require('../middleware/validate-fields');
-
-router.get('/:id',
-  [
-    check('id', 'Please enter a valid id').isMongoId(),
-  ], getAdvertisementById);
-
-router.get('/', getAllAdvertisements);
-
-router.post(
-  '/',
-  isAdmin,
-  [
-    check('car', 'The car field is required').not().isEmpty(),
-    check('payed', 'The payed field is required').not().isEmpty(),
-    validateFields
-  ],
-  newAdvertisement
-);
 
 /**
  * @swagger
@@ -182,8 +168,6 @@ router.post(
  *              $ref: '#/components/schemas/Advertisement'
  */
 
-router.put('/:id', isAdmin, updateAdvertisementById);
-
 /**
  * @swagger
  *
@@ -202,6 +186,34 @@ router.put('/:id', isAdmin, updateAdvertisementById);
  *      200:
  *        description: If the operation was successfully return 200.
  */
+
+
+const express = require('express');
+const router = express.Router();
+const { getAdvertisementById, updateAdvertisementById, deleteAdvertisementById, getAllAdvertisements, newAdvertisement } = require('../controllers/advertisementController');
+const { check } = require('express-validator');
+const { isAdmin } = require('../middleware/role');
+const { validateFields } = require('../middleware/validate-fields');
+
+router.get('/:id',
+  [
+    check('id', 'Please enter a valid id').isMongoId(),
+  ], getAdvertisementById);
+
+router.get('/', getAllAdvertisements);
+
+router.post(
+  '/',
+  isAdmin,
+  [
+    check('car', 'The car field is required').not().isEmpty(),
+    check('payed', 'The payed field is required').not().isEmpty(),
+    validateFields
+  ],
+  newAdvertisement
+);
+
+router.put('/:id', isAdmin, updateAdvertisementById);
 
 router.delete('/:id', isAdmin, deleteAdvertisementById);
 

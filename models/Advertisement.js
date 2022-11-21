@@ -20,6 +20,18 @@ const AdvertisementSchema = new Schema({
     type: Boolean,
     required: [ true, 'Payed is required' ],
     default: false
+  }, 
+  title: {
+    type: String,
+    required: [ true, 'Title is required' ]
+  },
+  description: {
+    type: String,
+    required: [ false ]
+  },
+  location: {
+    type: String,
+    required: [ true, 'Location is required' ],
   }
 });
 

@@ -11,7 +11,7 @@
     "test-client": "mocha ./test/client.test.js",
     "test-comment": "mocha ./test/comment.test.js",
     "test-direccion": "mocha ./test/direccion.test.js",
-    "test-advertisement": "mocha ./test/advertisement.test.js",
+    "test-advertisement": "mocha --timeout 15000 ./test/advertisement.test.js",
     "test-respuesta": "mocha ./test/respuesta.test.js"
   },
   "author": "",
