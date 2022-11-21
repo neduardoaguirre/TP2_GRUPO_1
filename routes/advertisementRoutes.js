@@ -47,7 +47,6 @@
  *                  $ref: '#/components/schemas/Advertisement'
  */
 
-
 /**
  * @swagger
  *
@@ -68,31 +67,28 @@
  *                $ref: '#/components/schemas/Advertisement'
  */
 
-
-
 /**
-* @swagger
-*
-* /advertisements/{id}:
-*  get:
-*    tags:
-*      - Advertisements
-*    summary: Get an advertisement by id.
-*    description: Get an advertisement by id.
-*    parameters:
-*      - in: path
-*        name: id
-*        requerid: true
-*        description: Id of the advertisement
-*    responses:
-*      200:
-*        description: An advertisement.
-*        content:
-*          application/json:
-*            schema:
-*              $ref: '#/components/schemas/Advertisement'
-*/
-
+ * @swagger
+ *
+ * /advertisements/{id}:
+ *  get:
+ *    tags:
+ *      - Advertisements
+ *    summary: Get an advertisement by id.
+ *    description: Get an advertisement by id.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        requerid: true
+ *        description: Id of the advertisement
+ *    responses:
+ *      200:
+ *        description: An advertisement.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Advertisement'
+ */
 
 /**
  * @swagger
@@ -187,23 +183,27 @@
  *        description: If the operation was successfully return 200.
  */
 
-
 const express = require('express');
 const router = express.Router();
-const { getAdvertisementById, updateAdvertisementById, deleteAdvertisementById, getAllAdvertisements, newAdvertisement } = require('../controllers/advertisementController');
+const {
+  getAdvertisementById,
+  updateAdvertisementById,
+  deleteAdvertisementById,
+  getAllAdvertisements,
+  newAdvertisement
+} = require('../controllers/advertisementController');
 const { check } = require('express-validator');
 const { isAdmin } = require('../middleware/role');
 const { validateFields } = require('../middleware/validate-fields');
+const auth = require('../middleware/auth');
 
-router.get('/:id',
-  [
-    check('id', 'Please enter a valid id').isMongoId(),
-  ], getAdvertisementById);
+router.get('/:id', [check('id', 'Please enter a valid id').isMongoId()], getAdvertisementById);
 
 router.get('/', getAllAdvertisements);
 
 router.post(
   '/',
+  auth,
   isAdmin,
   [
     check('car', 'The car field is required').not().isEmpty(),
@@ -213,9 +213,8 @@ router.post(
   newAdvertisement
 );
 
-router.put('/:id', isAdmin, updateAdvertisementById);
+router.put('/:id', auth, isAdmin, updateAdvertisementById);
 
-router.delete('/:id', isAdmin, deleteAdvertisementById);
+router.delete('/:id', auth, isAdmin, deleteAdvertisementById);
 
 module.exports = router;
-
