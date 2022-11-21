@@ -78,7 +78,7 @@ describe('Advertisemet tests', () => {
     it("Advertisement edited", async () => {
       const advertisementUpdate = {
         title: "Great opportunity Toyota Yaris!",
-        payed: false,
+        paid: false,
       };
       const response = await AdvertisementRepository.edit(advertisementId, advertisementUpdate);
       const status = response.status;
@@ -86,7 +86,7 @@ describe('Advertisemet tests', () => {
 
       expect(data).to.be.an("Object");
       expect(data.title).equal(advertisementUpdate.title);
-      expect(data.payed).equal(advertisementUpdate.payed);
+      expect(data.paid).equal(advertisementUpdate.paid);
       expect(status).equal(200);
     });
 

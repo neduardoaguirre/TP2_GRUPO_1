@@ -20,7 +20,7 @@ const date = new Date()
 const advertisementMock = new Advertisement ({
     car: carMock,
     date: date.toString(),
-    payed: true,
+    paid: true,
     title: "Toyota Yaris on sale",
     description: "New car, 0 km",
     location: "Recoleta, CABA"

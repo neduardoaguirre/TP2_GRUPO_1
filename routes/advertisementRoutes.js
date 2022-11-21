@@ -120,7 +120,7 @@
  *            example: "2022-11-13T18:02:25.319Z"
  *        comments:
  *            type: array
- *        payed:
+ *        paid:
  *            type: boolean
  *            example: true
  *        title:
@@ -207,7 +207,7 @@ router.post(
   isAdmin,
   [
     check('car', 'The car field is required').not().isEmpty(),
-    check('payed', 'The payed field is required').not().isEmpty(),
+    check('paid', 'The paid field is required').not().isEmpty(),
     validateFields
   ],
   newAdvertisement

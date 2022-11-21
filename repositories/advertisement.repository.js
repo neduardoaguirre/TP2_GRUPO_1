@@ -18,7 +18,7 @@ class AdvertisementRepository {
           status: 400,
         };
       } else if (advertisementBody && Object.keys(advertisementBody).length) {
-        const propertiesCanEdit = ["date", "comments", "payed", "title", "descrption", "location"];
+        const propertiesCanEdit = ["date", "comments", "paid", "title", "descrption", "location"];
         const propertiesCantEdit = [];
 
         Object.keys(advertisementBody).forEach((property) => {

@@ -16,9 +16,9 @@ const AdvertisementSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Comment'
   } ],
-  payed: {
+  paid: {
     type: Boolean,
-    required: [ true, 'Payed is required' ],
+    required: [ true, 'Paid is required' ],
     default: false
   }, 
   title: {
