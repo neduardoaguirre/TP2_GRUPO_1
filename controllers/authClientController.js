@@ -15,11 +15,11 @@ const loginClient = async (req, res) => {
   try {
     let client = await Client.findOne({ email });
     if (!client) {
-      return res.status(400).json({ msg: 'Incorrect user and/or password' });
+      return res.status(401).json({ msg: 'Incorrect user and/or password' });
     }
     const passwordCheckup = await bcryptjs.compare(password, client.password);
     if (!passwordCheckup) {
-      return res.status(400).json({ msg: 'Incorrect user and/or password' });
+      return res.status(401).json({ msg: 'Incorrect user and/or password' });
     }
     const payload = { client: { id: client.id } };
     jwt.sign(
@@ -30,11 +30,12 @@ const loginClient = async (req, res) => {
       },
       (error, token) => {
         if (error) throw error;
-        res.json({ token: token, msg: 'Login successfuly' });
+        res.status(200).json({ token: token, msg: 'Login successfuly' });
       }
     );
   } catch (error) {
     console.log(error);
+    res.status(422).json({ msg: 'Sorry, something went wrong' });
   }
 };
 

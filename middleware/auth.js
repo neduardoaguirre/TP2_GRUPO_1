@@ -24,6 +24,6 @@ module.exports = function (req, res, next) {
     req.user = encrypted.user;
     next();
   } catch (error) {
-    res.status(401).json({ msg: 'Invalid token' });
+    res.status(422).json({ msg: 'Invalid token' });
   }
 };

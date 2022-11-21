@@ -11,7 +11,7 @@ const createAdmin = async (req, res) => {
     let admin = await Admin.findOne({ email });
 
     if (admin) {
-      return res.status(400).json({ msg: `A admin already exist with this email:${email}` });
+      return res.status(409).json({ msg: `A admin already exist with this email:${email}` });
     }
 
     admin = new Admin(req.body);
@@ -19,12 +19,12 @@ const createAdmin = async (req, res) => {
     admin.password = bcryptjs.hashSync(password, salt);
     await admin.save();
 
-    res.status(200).json({
+    res.status(201).json({
       msg: `Admin created`
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: 'Sorry, something went wrong' });
+    res.status(422).json({ msg: 'Sorry, something went wrong' });
   }
 };
 
@@ -69,6 +69,7 @@ const updateAdmin = async (req, res) => {
     res.status(200).json({ adminUpdated: adminUpdated });
   } catch (err) {
     console.log('error', err);
+    res.status(422).json({ msg: 'Sorry, something went wrong' });
   }
 };
 

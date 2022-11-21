@@ -181,6 +181,7 @@ const { getClient, getAllClients, newClient, updateClient, deleteClient } = requ
 const { check } = require('express-validator');
 const { isAdmin, isClient } = require('../middleware/role');
 const auth = require('../middleware/auth');
+const { validateFields } = require('../middleware/validate-fields');
 
 router.get('/:id', auth, isAdmin, getClient);
 router.get('/', auth, isAdmin, getAllClients);
@@ -197,11 +198,12 @@ router.post(
     )
       .isLength({ min: 8 })
       .isLength({ max: 12 })
-      .matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,12}$/)
+      .matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,12}$/),
+    validateFields
   ],
   newClient
 );
 router.put('/:id', auth, isClient, updateClient);
-router.delete('/:id', auth, isClient, deleteClient);
+router.delete('/:id', auth, isAdmin, deleteClient);
 
 module.exports = router;

@@ -9,21 +9,21 @@ const newAdvertisement = async (req, res) => {
   try {
     let carExist = await Car.findOne({ _id: carId });
     if (!carExist) {
-      return res.status(400).json({ msg: 'The car does not exist' });
+      return res.status(404).json({ msg: 'The car does not exist' });
     }
     let exists = await Advertisement.findOne({ car: carId });
     if (exists) {
-      return res.status(400).json({ msg: 'A advertisement already exist with this car' });
+      return res.status(409).json({ msg: 'A advertisement already exist with this car' });
     }
     let advertisement = new Advertisement(req.body);
     await advertisement.save();
-    res.status(200).json({
+    res.status(201).json({
       msg: 'Advertisement created successfuly',
       advertisement
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send('Sorry, something went wrong');
+    res.status(422).json({ msg: 'Sorry, something went wrong' });
   }
 };
 
@@ -40,7 +40,7 @@ const getAdvertisementById = async (req, res) => {
     }
     return res.status(200).json(adv);
   } catch (error) {
-    res.status(400).json(error).send('Sorry, something went wrong');
+    res.status(422).json({ msg: 'Sorry, something went wrong' });
   }
 };
 
@@ -52,7 +52,7 @@ const getAllAdvertisements = async (req, res) => {
     const advs = await Advertisement.find();
     res.status(200).json(advs);
   } catch (error) {
-    res.status(400).json(error).send('Sorry, something went wrong');
+    res.status(422).json({ msg: 'Sorry, something went wrong' });
   }
 };
 
