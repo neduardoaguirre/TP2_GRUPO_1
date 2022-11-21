@@ -17,9 +17,8 @@ const createAdmin = async (req, res) => {
     await admin.save();
 
     res.status(200).json({
-      admin
-    })
-
+      msg: `Admin created`
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: 'Sorry, something went wrong' });
@@ -32,36 +31,34 @@ const deleteAdmin = async (req, res) => {
 };
 
 const getAllAdmin = async (req, res) => {
-  const { limit = 5, from = 0 } = req.query
-  const [ admins, total ] = await Promise.all([
-    Admin.find()
-      .skip(Number(from))
-      .limit(Number(limit)),
+  const { limit = 5, from = 0 } = req.query;
+  const [admins, total] = await Promise.all([
+    Admin.find().select('-password').skip(Number(from)).limit(Number(limit)),
     Admin.countDocuments()
-  ])
+  ]);
 
   res.status(200).json({
     requestedElements: limit,
     total,
     admins
-  })
-}
+  });
+};
 
 const getAdminById = async (req, res) => {
-  const admin = await Admin.findById(req.params.id).select('-password')
+  const admin = await Admin.findById(req.params.id).select('-password');
   res.status(200).json(admin);
-}
+};
 
 const updateAdmin = async (req, res) => {
   try {
-    const { id } = req.params
-    let { email, ...rest } = req.body
-    const newAdmin = await Admin.findByIdAndUpdate({ _id: id }, { email }, { new: true });
-    res.status(200).json({ newAdmin });
+    const { id } = req.params;
+    let { email, ...rest } = req.body;
+    const adminUpdated = await Admin.findByIdAndUpdate({ _id: id }, { email }, { new: true }).select('-password');
+    res.status(200).json({ adminUpdated: adminUpdated });
   } catch (err) {
-    console.log('error', err)
+    console.log('error', err);
   }
-}
+};
 
 module.exports = {
   createAdmin,
@@ -69,4 +66,4 @@ module.exports = {
   getAdminById,
   getAllAdmin,
   updateAdmin
-}
+};
