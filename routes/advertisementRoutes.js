@@ -109,12 +109,12 @@
  *              model: "Yaris"
  *              year: 2022
  *              price: 2500000
- *              description: "Full con ABS"
+ *              description: "Full with ABS"
  *              image: "https://www.jeep.com.ar/content/dam/cross-regional/latam/jeep/es_ar/bhp/lineup/Jeep-Renegade-2022-new.jpg.img.300.jpg"
  *              color: "Gris"
  *              doors: 5
- *              fuel: "Nafta"
- *              milage: 1000
+ *              fuel: "Fuel"
+ *              milage: 0
  *        date:
  *            type: date
  *            example: "2022-11-13T18:02:25.319Z"
@@ -125,10 +125,10 @@
  *            example: true
  *        title:
  *            type: string
- *            example: "Toyota Yaris a la venta"
+ *            example: "Toyota Yaris on sale"
  *        description:
  *            type: string
- *            example: "Auto nuevo 0 km"
+ *            example: "New car 0 km"
  *        location:
  *            type: string
  *            example: "Recoleta, CABA"
