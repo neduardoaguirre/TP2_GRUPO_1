@@ -99,6 +99,9 @@ Correr todos los tests disponibles:
 - fecha
 - seniado
 - comentarios
+- titulo
+- descripcion
+- ubicacion
 ```
 
 **Respuesta**
