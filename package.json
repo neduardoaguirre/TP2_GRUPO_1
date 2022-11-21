@@ -8,7 +8,7 @@
     "test": "mocha",
     "test-admin": "mocha ./test/admin.test.js",
     "test-car": "mocha --timeout 15000 ./test/car.test.js",
-    "test-client": "mocha ./test/client.test.js",
+    "test-client": "mocha --timeout 15000 ./test/client.test.js",
     "test-comment": "mocha ./test/comment.test.js",
     "test-direccion": "mocha ./test/direccion.test.js",
     "test-advertisement": "mocha --timeout 15000 ./test/advertisement.test.js",
