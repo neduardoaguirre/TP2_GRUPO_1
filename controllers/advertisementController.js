@@ -1,53 +1,59 @@
-const Advertisement = require("../models/Advertisement");
-const { validationResult } = require("express-validator");
-const { isValidObjectId } = require("mongoose");
-const AdvertisementRepository = require("../repositories/advertisement.repository");
-const advertisementRepository = require("../repositories/advertisement.repository");
+const Advertisement = require('../models/Advertisement');
+const Car = require('../models/Car');
 
-
+/**
+ * Add new advertisement
+ */
 const newAdvertisement = async (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ msg: errors.array() });
-  }
-
+  const { car: carId } = req.body;
   try {
-    const advertisementBody = req.body
-    const advertisement = await AdvertisementRepository.save(advertisementBody);
-    res.status(advertisement.status).json(advertisement);
+    let carExist = await Car.findOne({ _id: carId });
+    if (!carExist) {
+      return res.status(400).json({ msg: 'The car does not exist' });
+    }
+    let exists = await Advertisement.findOne({ car: carId });
+    if (exists) {
+      return res.status(400).json({ msg: 'A advertisement already exist with this car' });
+    }
+    let advertisement = new Advertisement(req.body);
+    await advertisement.save();
+    res.status(200).json({
+      msg: 'Advertisement created successfuly',
+      advertisement
+    });
   } catch (error) {
-    console.error("AdvertisementController - newAdvertisement - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    console.log(error);
+    res.status(500).send('Sorry, something went wrong');
   }
 };
 
 /**
  * Get advertisement by id
  */
-
 const getAdvertisementById = async (req, res) => {
+  const { id } = req.params;
+  const adv = await Advertisement.findById(id).populate('comments').populate('car');
+
   try {
-    const { id } = req.params
-    const advertisement = await AdvertisementRepository.get(id)
-    res.status(advertisement.status).json(advertisement);
+    if (!adv) {
+      return res.status(404).json({ msg: `Advertisement with id (${id}) does not exist` });
+    }
+    return res.status(200).json(adv);
   } catch (error) {
-    console.error("AdvertisementController - getAdvertisement - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    res.status(400).json(error).send('Sorry, something went wrong');
   }
 };
 
 /**
  * Get all advertisements
  */
-
 const getAllAdvertisements = async (req, res) => {
   try {
-    const advertisements = await AdvertisementRepository.getAll();
-    res.status(advertisements.status).json(advertisements);
+    const advs = await Advertisement.find();
+    res.status(200).json(advs);
   } catch (error) {
-    console.error("AdvertisementController - getAdvertisements - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });  }
+    res.status(400).json(error).send('Sorry, something went wrong');
+  }
 };
 
 /**
@@ -55,13 +61,10 @@ const getAllAdvertisements = async (req, res) => {
  */
 const updateAdvertisementById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const advertisementBody = req.body;
-    const advertisement = await AdvertisementRepository.edit(id, advertisementBody);
-    res.status(advertisement.status).json(advertisement);
+    await Advertisement.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true });
+    res.status(200).json({ msg: `Advertisement id: ${req.params.id} has been updated` });
   } catch (error) {
-    console.error("AdvertisementController - updateAdvertisement - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    res.status(404).json(error).send('There is no advertisement with this id');
   }
 };
 
@@ -70,12 +73,10 @@ const updateAdvertisementById = async (req, res) => {
  */
 const deleteAdvertisementById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const advertisement = await AdvertisementRepository.delete(id);
-    res.status(advertisement.status).json(advertisement);
+    await Advertisement.findByIdAndRemove({ _id: req.params.id });
+    res.status(200).json({ msg: `Advertisement id: ${req.params.id} has been deleted` });
   } catch (error) {
-    console.error("AdvertisementController - deleteAdvertisement - ERROR: ", error);
-    res.status(500).json({ msg: "Sorry, something went wrong", status: 500 });
+    res.status(404).json(error).send('There is no advertisement with this id');
   }
 };
 
@@ -85,4 +86,4 @@ module.exports = {
   deleteAdvertisementById,
   updateAdvertisementById,
   getAllAdvertisements
-}
+};

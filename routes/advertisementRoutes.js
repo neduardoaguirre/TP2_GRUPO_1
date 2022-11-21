@@ -208,6 +208,8 @@ router.post(
   [
     check('car', 'The car field is required').not().isEmpty(),
     check('paid', 'The paid field is required').not().isEmpty(),
+    check('title', 'The title field is required').not().isEmpty(),
+    check('location', 'The location field is required').not().isEmpty(),
     validateFields
   ],
   newAdvertisement
