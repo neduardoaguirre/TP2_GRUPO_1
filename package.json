@@ -10,7 +10,8 @@
     "test-car": "mocha --timeout 15000 ./test/car.test.js",
     "test-client": "mocha --timeout 15000 ./test/client.test.js",
     "test-comment": "mocha --timeout 15000 ./test/comment.test.js",
-    "test-advertisement": "mocha --timeout 15000 ./test/advertisement.test.js"
+    "test-advertisement": "mocha --timeout 15000 ./test/advertisement.test.js",
+    "test-auth": "mocha --timeout 15000 ./test/auth.test.js"
   },
   "author": "",
   "license": "ISC",
