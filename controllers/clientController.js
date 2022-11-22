@@ -7,9 +7,8 @@ const jwt = require('jsonwebtoken');
  * Get client by id
  */
 const getClient = async (req, res) => {
-  const { id } = req.params.id;
   try {
-    let client = await Client.findOne({ id });
+    let client = await Client.findOne({ _id: req.params.id });
     res.status(200).json(client);
   } catch (error) {
     res.status(404).json(error).send('There is no client with this id');
@@ -43,7 +42,7 @@ const newClient = async (req, res) => {
     const salt = await bcryptjs.genSalt(10);
     client.password = await bcryptjs.hash(password, salt);
     await client.save();
-    res.status(200).json({
+    res.status(201).json({
       msg: `Client created`
     });
   } catch (error) {
