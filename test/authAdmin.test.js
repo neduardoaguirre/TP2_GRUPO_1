@@ -3,7 +3,7 @@ const DB = require("../helpers/db.helper");
 const { adminMock } = require('../mocks/admin.mock');
 const MongoAdmin = require('../models/Admin');
 const adminRepository = require("../repositories/admin.repository");
-const authRepository = require("../repositories/authRepository");
+const authRepository = require("../repositories/auth.repository");
 
 
 describe("Auth - Admin", () => {
@@ -35,7 +35,5 @@ describe("Auth - Admin", () => {
       expect(data).equal(undefined);
       expect(status).equal(403);
     })
-
   })
-
 })
