@@ -191,6 +191,4 @@ router.post('/:advertisementId', auth, [ check('text').not().isEmpty() ], commen
 
 router.post('/reply/:commentId', auth, [ check('text').not().isEmpty() ], commentController.newAnswer);
 
-router.get('/', commentController.getCommentsS)
-
 module.exports = router;

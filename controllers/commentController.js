@@ -150,7 +150,7 @@ const newComment = async (req, res) => {
         });
 
         res.status(201).send({
-          advertisementComments: [...advertisement.comments, commentSaved],
+          advertisementComments: [ ...advertisement.comments, commentSaved ],
           newComment: commentSaved
         });
       } else {
@@ -164,17 +164,10 @@ const newComment = async (req, res) => {
   }
 };
 
-const getCommentsS = async (req, res) => {
-  const comm = await Comment.find();
-  console.log(comm);
-
-  return res.status(201).json(comm);
-};
 
 module.exports = {
   deleteComment,
   getComments,
   newAnswer,
-  newComment,
-  getCommentsS
+  newComment
 };
