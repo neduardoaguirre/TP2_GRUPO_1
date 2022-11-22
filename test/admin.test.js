@@ -1,4 +1,3 @@
-const assert = require('chai').assert
 const { adminMock } = require('../mocks/admin.mock');
 const { expect } = require("chai");
 const MongoAdmin = require('../models/Admin');
@@ -13,7 +12,7 @@ describe("Admin", () => {
   });
 
   after((done) => {
-    MongoAdmin.deleteOne({ mail: adminMock.dni }).then(() => {
+    MongoAdmin.deleteOne({ mail: adminMock.email }).then(() => {
       DB.disconnect().then(() => done());
     });
   });
