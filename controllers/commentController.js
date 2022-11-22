@@ -1,7 +1,7 @@
-const Comment = require("../models/Comment");
-const { validationResult } = require("express-validator");
-const { isValidObjectId } = require("mongoose");
-const Advertisement = require("../models/Advertisement");
+const Comment = require('../models/Comment');
+const { validationResult } = require('express-validator');
+const { isValidObjectId } = require('mongoose');
+const Advertisement = require('../models/Advertisement');
 
 /**
  * Delete comment by id
@@ -15,26 +15,24 @@ const deleteComment = async (req, res) => {
 
       if (comment) {
         const advertisement = await Advertisement.findById({
-          _id: comment.advertisementId,
+          _id: comment.advertisementId
         });
 
-        const commentsUpdated = advertisement.comments.filter(
-          (c) => c._id.toString() !== comment.id
-        );
+        const commentsUpdated = advertisement.comments.filter((c) => c._id.toString() !== comment.id);
 
         await advertisement.updateOne({
-          comments: commentsUpdated,
+          comments: commentsUpdated
         });
 
-        res.status(200).send("Comment deleted successfully");
+        res.status(200).send('Comment deleted successfully');
       } else {
-        res.status(400).send("Invalid comment id");
+        res.status(400).send('Invalid comment id');
       }
     } else {
-      res.status(400).send("Invalid comment id");
+      res.status(400).send('Invalid comment id');
     }
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    res.status(422).json(error).send('Sorry, something went wrong');
   }
 };
 
@@ -48,10 +46,10 @@ const getComments = async (req, res) => {
       const comments = await Comment.find({ advertisementId });
       res.status(200).json(comments);
     } else {
-      res.status(400).send("Invalid advertisement id");
+      res.status(400).send('Invalid advertisement id');
     }
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    res.status(422).json(error).send('Sorry, something went wrong');
   }
 };
 
@@ -70,26 +68,26 @@ const newAnswer = async (req, res) => {
 
     if (isValidObjectId(commentId)) {
       const comment = await Comment.findById({
-        _id: commentId,
+        _id: commentId
       });
 
       if (comment) {
         if (comment.answer && Object.keys(comment.answer).length) {
-          res.status(400).send("The comment id was already replied");
+          res.status(409).send('The comment id was already replied');
         } else {
           const advertisement = await Advertisement.findById({
-            _id: comment.advertisementId,
+            _id: comment.advertisementId
           });
 
           if (advertisement) {
             const { text } = req.body;
             const answer = {
               date: new Date(),
-              text,
+              text
             };
 
             await comment.updateOne({
-              answer,
+              answer
             });
 
             let updatedComment = null;
@@ -102,25 +100,25 @@ const newAnswer = async (req, res) => {
             });
 
             await advertisement.updateOne({
-              comments: commentsUpdated,
+              comments: commentsUpdated
             });
 
             res.status(201).send({
               advertisementComments: commentsUpdated,
-              updatedComment: updatedComment,
+              updatedComment: updatedComment
             });
           } else {
-            res.status(400).send("Invalid comment id");
+            res.status(400).send('Invalid comment id');
           }
         }
       } else {
-        res.status(400).send("Invalid comment id");
+        res.status(400).send('Invalid comment id');
       }
     } else {
-      res.status(400).send("Invalid comment id");
+      res.status(400).send('Invalid comment id');
     }
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    res.status(422).json(error).send('Sorry, something went wrong');
   }
 };
 
@@ -139,7 +137,7 @@ const newComment = async (req, res) => {
 
     if (isValidObjectId(advertisementId)) {
       const advertisement = await Advertisement.findById({
-        _id: advertisementId,
+        _id: advertisementId
       });
 
       if (advertisement) {
@@ -148,28 +146,27 @@ const newComment = async (req, res) => {
         const commentSaved = await comment.save();
 
         await advertisement.updateOne({
-          $push: { comments: commentSaved },
+          $push: { comments: commentSaved }
         });
 
         res.status(201).send({
           advertisementComments: [...advertisement.comments, commentSaved],
-          newComment: commentSaved,
+          newComment: commentSaved
         });
       } else {
-        res.status(400).send("Invalid advertisement id");
+        res.status(400).send('Invalid advertisement id');
       }
     } else {
-      res.status(400).send("Invalid advertisement id");
+      res.status(400).send('Invalid advertisement id');
     }
   } catch (error) {
-    res.status(400).json(error).send("Sorry, something went wrong");
+    res.status(422).json(error).send('Sorry, something went wrong');
   }
 };
-
 
 module.exports = {
   deleteComment,
   getComments,
   newAnswer,
-  newComment,
+  newComment
 };
