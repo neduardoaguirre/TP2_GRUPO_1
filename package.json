@@ -11,7 +11,8 @@
     "test-client": "mocha --timeout 15000 ./test/client.test.js",
     "test-comment": "mocha --timeout 15000 ./test/comment.test.js",
     "test-advertisement": "mocha --timeout 15000 ./test/advertisement.test.js",
-    "test-auth": "mocha --timeout 15000 ./test/auth.test.js"
+    "test-auth-admin": "mocha --timeout 15000 ./test/authAdmin.test.js",
+    "test-auth-client": "mocha --timeout 15000 ./test/authClient.test.js"
   },
   "author": "",
   "license": "ISC",

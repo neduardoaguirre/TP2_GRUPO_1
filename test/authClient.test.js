@@ -1,34 +1,33 @@
 const { expect } = require("chai");
 const DB = require("../helpers/db.helper");
-const { adminMock } = require('../mocks/admin.mock');
-const MongoAdmin = require('../models/Admin');
-const adminRepository = require("../repositories/admin.repository");
+const { clientMock } = require('../mocks/client.mock')
+const Client = require('../models/Client');
 const authRepository = require("../repositories/authRepository");
+const clientRepository = require('../repositories/client.repository')
 
 
-describe("Auth", () => {
-
+describe("Auth Client", () => {
   before((done) => {
     DB.connect().then(() => done());
   });
 
   after((done) => {
-    MongoAdmin.deleteOne({ mail: adminMock.email }).then(() => {
+    Client.deleteOne({ mail: clientMock.email }).then(() => {
       DB.disconnect().then(() => done());
     });
   });
 
   describe("Auth Admin", () => {
-    it("Login admin", async () => {
-      await adminRepository.save(adminMock);
-      const { status, token } = await authRepository.loginAdmin(adminMock);
+    it("Login client", async () => {
+      await clientRepository.save(clientMock);
+      const { status, token } = await authRepository.loginClient(clientMock);
 
       expect(token).to.be.an("String");
       expect(status).equal(200);
     });
 
-    it("Error login admin", async () => {
-      const { status, data } = await authRepository.loginAdmin({
+    it("Error login client", async () => {
+      const { status, data } = await authRepository.loginClient({
         email: "",
         password: "",
       });

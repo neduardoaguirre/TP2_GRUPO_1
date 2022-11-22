@@ -1,5 +1,6 @@
 
 const Admin = require('../models/Admin');
+const Client = require('../models/Client');
 
 class AuthRepository {
   async loginAdmin(adminBody) {
@@ -21,6 +22,30 @@ class AuthRepository {
       }
 
     } catch (err) {
+      return {
+        msg: 'Incorrect user and/or password',
+        status: 403
+      }
+    }
+  }
+
+  async loginClient(clientBody) {
+    try {
+      const client = await Client.findOne({ email: clientBody.email })
+      if (client) {
+        if (client.password === clientBody.password) {
+          return {
+            token: 'ahsdjhasd',
+            status: 200
+          }
+        }
+      }
+      return {
+        status: 403,
+        msg: 'Incorrect user and/or password'
+      }
+
+    } catch (error) {
       return {
         msg: 'Incorrect user and/or password',
         status: 403
