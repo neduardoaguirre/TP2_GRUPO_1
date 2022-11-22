@@ -1,35 +1,106 @@
-const expect = require("chai").expect;
 const assert = require('chai').assert
-const MongoAdmin = require('../models/Admin')
+const { adminMock } = require('../mocks/admin.mock');
+const { expect } = require("chai");
+const MongoAdmin = require('../models/Admin');
+const adminRepository = require('../repositories/admin.repository');
+const DB = require("../helpers/db.helper");
 
 describe("Admin", () => {
+  let adminId = null
 
-  describe("Contraseña invalida", () => {
-    it("Verifica si existe un admin y si la contraseña es correcta", () => {
-      const newAdmin = new MongoAdmin({ email: 'admin@admin.com', password: 'test123' })
-      newAdmin.save()
-        .then(() => {
-          assert(newAdmin.isNew)
-          done()
-        })
+  before((done) => {
+    DB.connect().then(() => done());
+  });
+
+  after((done) => {
+    MongoAdmin.deleteOne({ mail: adminMock.dni }).then(() => {
+      DB.disconnect().then(() => done());
     });
   });
 
-  describe("Instancia valida", () => {
-    it("Crea el admin correctamente", () => {
-      const crearAdminCorrecto = () => {
-        const newAdmin = new MongoAdmin({ email: 'admin@admin.com', password: 'Pass1234' })
-        newAdmin.save()
+  describe("Crear admin", () => {
+    it("Admin guardado", async () => {
+      const { status, data } = await adminRepository.save(adminMock);
+      adminId = data.id
+
+      expect(data).to.be.an("Object");
+      expect(data.email).equal(adminMock.email);
+      expect(status).equal(200);
+    });
+
+    it("Error al guardar admin", async () => {
+      const { status, data } = await adminRepository.save(adminMock);
+
+      expect(data).equal(undefined);
+      expect(status).equal(400);
+    });
+  });
+
+  describe("Buscar admin ", () => {
+    it("Buscar admin por ID", async () => {
+
+      const { status, data } = await adminRepository.get(adminId)
+
+      expect(data).to.be.an("Object")
+      expect(data.id).equal(adminId)
+      expect(data.email).equal(adminMock.email)
+      expect(status).equal(200)
+    });
+
+
+    it("Error admin por ID ", async () => {
+      const { status, data } = await adminRepository.get('1112')
+
+      expect(data).equal(undefined)
+      expect(status).equal(400)
+    });
+
+    it("Buscar admins", async () => {
+      const { status, data } = await adminRepository.getAll()
+
+      expect(data.length).to.be.greaterThan(0)
+      expect(status).equal(200)
+    });
+  });
+
+  describe("Editar admin", () => {
+    it("Admin editado", async () => {
+      const adminUpdate = {
+        email: 'emailUpdate@test.com'
       }
-      assert.doesNotThrow(crearAdminCorrecto)
+
+      const { status, data } = await adminRepository.edit(adminId, adminUpdate)
+
+      expect(data).to.be.an("Object")
+      expect(data.email).equal(adminUpdate.email)
+      expect(status).equal(200)
     });
 
-    it("Impide la creación por falta de password", () => {
-      const crearAdminErroneo = () => {
-        const adminErroneo = new MongoAdmin("admin@admin.com", undefined);
-        adminErroneo.save()
-      };
-      assert.throws(crearAdminErroneo)
+    it("Admin no editado", async () => {
+      const adminUpdate = {
+        failError: 'emailUpdate@test.com'
+      }
+
+      const { status, data } = await adminRepository.edit(adminId, adminUpdate)
+
+      expect(data).equal(undefined)
+      expect(status).equal(400)
     });
   });
-});
+
+  describe("Borrar admin", () => {
+    it("Admin borrado", async () => {
+      const response = await adminRepository.delete(adminId);
+      const status = response.status;
+
+      expect(status).equal(200);
+    });
+
+    it("Admin no borrado", async () => {
+      const response = await adminRepository.delete(adminId);
+      const status = response.status;
+
+      expect(status).equal(400);
+    });
+  });
+})

@@ -101,7 +101,7 @@ describe("Test's Client", () => {
     });
   });
 
-  describe("Borrar auto", () => {
+  describe("Delete client", () => {
     it("deletes a client", async () => {
       const response = await clientRepository.delete(clientId);
       const status = response.status;
