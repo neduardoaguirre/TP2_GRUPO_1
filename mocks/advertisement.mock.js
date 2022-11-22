@@ -1,9 +1,8 @@
 const Advertisement = require("../models/Advertisement");
 const Car = require("../models/Car");
 
-
 const carMock = new Car({
-  licensePlate: "AE299AB",
+  licensePlate: "AOP672BB",
   brand: "Toyota",
   year: 2022,
   model: "Yaris",
@@ -21,6 +20,7 @@ const advertisementMock = new Advertisement ({
     car: carMock,
     date: date.toString(),
     paid: true,
+    comments: [],
     title: "Toyota Yaris on sale",
     description: "New car, 0 km",
     location: "Recoleta, CABA"

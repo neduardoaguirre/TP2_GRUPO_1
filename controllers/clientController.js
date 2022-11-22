@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
  */
 const getClient = async (req, res) => {
   try {
-    let client = await Client.findOne({ _id: req.params.id }).select("-password");
+    let client = await Client.findOne({ _id: req.params.id }).select('-password');
     res.status(200).json(client);
   } catch (error) {
     res.status(404).json(error).send('There is no client with this id');
@@ -20,7 +20,7 @@ const getClient = async (req, res) => {
  */
 const getAllClients = async (req, res) => {
   try {
-    const clients = await Client.find().select("-password");;
+    const clients = await Client.find().select('-password');
     res.status(200).json(clients);
   } catch (error) {
     res.status(422).json({ msg: 'Sorry, something went wrong' });
@@ -36,7 +36,7 @@ const newClient = async (req, res) => {
     let client = await Client.findOne({ email });
 
     if (client) {
-      return res.status(400).json({ msg: 'A client already exist with this email address' });
+      return res.status(409).json({ msg: 'A client already exist with this email address' });
     }
     client = new Client(req.body);
     const salt = await bcryptjs.genSalt(10);

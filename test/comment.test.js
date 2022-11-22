@@ -1,13 +1,10 @@
 require("dotenv").config({ path: ".env" });
 const { expect } = require("chai");
 const DB = require("../helpers/db.helper");
-// const { commentMock } = require("../mocks/comment.mock");
-const CarMongoose = require("../models/Car");
-const carRepository = require("../repositories/car.repository");
 const commentRepository = require("../repositories/comment.repository");
 
 describe("Test's Comentarios", () => {
-  const advertisementId = "637bb31e70e9c8401fd761f8";
+  const advertisementId = "637d48cb9312bcf1932a411a";
   let commentId = null;
 
   before((done) => {
